@@ -1,0 +1,850 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lanzadera de Empleo — Base de Datos</title>
+<style>
+  :root {
+    --bg: #fafafa;
+    --card: #ffffff;
+    --border: #e5e7eb;
+    --text: #1a1a1a;
+    --text-secondary: #6b7280;
+    --accent: #2563eb;
+    --accent-light: #eff6ff;
+    --tag-bg: #f3f4f6;
+    --green: #059669;
+    --green-bg: #ecfdf5;
+    --red: #dc2626;
+    --red-bg: #fef2f2;
+    --yellow: #d97706;
+    --yellow-bg: #fffbeb;
+    --radius: 10px;
+    --shadow: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
+    --shadow-lg: 0 4px 12px rgba(0,0,0,0.08);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    min-height: 100vh;
+  }
+
+  .header {
+    background: var(--card);
+    border-bottom: 1px solid var(--border);
+    padding: 24px 0;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+
+  .header-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+
+  .header h1 {
+    font-size: 1.4rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+  }
+
+  .header h1 span { color: var(--accent); }
+
+  .stats {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    font-weight: 500;
+  }
+
+  .stats strong { color: var(--accent); }
+
+  /* Search & Filters */
+  .search-section {
+    padding: 20px 0;
+  }
+
+  .search-bar {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 16px;
+    flex-wrap: wrap;
+  }
+
+  .search-input-wrapper {
+    flex: 1;
+    min-width: 280px;
+    position: relative;
+  }
+
+  .search-input-wrapper svg {
+    position: absolute;
+    left: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-secondary);
+  }
+
+  .search-input {
+    width: 100%;
+    padding: 12px 16px 12px 44px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    font-size: 0.95rem;
+    background: var(--card);
+    transition: border-color 0.2s, box-shadow 0.2s;
+    outline: none;
+  }
+
+  .search-input:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(37,99,235,0.1);
+  }
+
+  .filters-row {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+
+  select {
+    padding: 9px 32px 9px 12px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    font-size: 0.85rem;
+    background: var(--card) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%236b7280' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E") no-repeat right 10px center;
+    appearance: none;
+    cursor: pointer;
+    outline: none;
+    color: var(--text);
+    transition: border-color 0.2s;
+  }
+
+  select:focus { border-color: var(--accent); }
+
+  .clear-btn {
+    padding: 9px 16px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: var(--card);
+    color: var(--text-secondary);
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .clear-btn:hover {
+    background: var(--tag-bg);
+    color: var(--text);
+  }
+
+  /* View Toggle */
+  .view-toggle {
+    display: flex;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+  }
+
+  .view-toggle button {
+    padding: 9px 14px;
+    border: none;
+    background: var(--card);
+    cursor: pointer;
+    color: var(--text-secondary);
+    font-size: 0.85rem;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .view-toggle button.active {
+    background: var(--accent);
+    color: white;
+  }
+
+  .view-toggle button + button {
+    border-left: 1px solid var(--border);
+  }
+
+  /* Cards Grid */
+  .cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+    gap: 16px;
+    padding: 0 0 40px;
+  }
+
+  .card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 24px;
+    cursor: pointer;
+    transition: box-shadow 0.2s, transform 0.1s;
+  }
+
+  .card:hover {
+    box-shadow: var(--shadow-lg);
+    transform: translateY(-1px);
+  }
+
+  .card-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    margin-bottom: 16px;
+  }
+
+  .avatar {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: var(--accent-light);
+    color: var(--accent);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 1.1rem;
+    flex-shrink: 0;
+  }
+
+  .card-name {
+    font-size: 1.05rem;
+    font-weight: 600;
+    margin-bottom: 2px;
+  }
+
+  .card-subtitle {
+    font-size: 0.82rem;
+    color: var(--text-secondary);
+  }
+
+  .card-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-bottom: 14px;
+  }
+
+  .tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 500;
+  }
+
+  .tag-sector { background: var(--accent-light); color: var(--accent); }
+  .tag-city { background: var(--tag-bg); color: var(--text-secondary); }
+  .tag-yes { background: var(--green-bg); color: var(--green); }
+  .tag-no { background: var(--red-bg); color: var(--red); }
+
+  .card-info {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    font-size: 0.82rem;
+  }
+
+  .info-item {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .info-label {
+    color: var(--text-secondary);
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    font-weight: 600;
+    margin-bottom: 1px;
+  }
+
+  .info-value {
+    font-weight: 500;
+  }
+
+  /* Table View */
+  .table-wrapper {
+    overflow-x: auto;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    margin-bottom: 40px;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.85rem;
+  }
+
+  thead th {
+    background: var(--tag-bg);
+    padding: 12px 16px;
+    text-align: left;
+    font-weight: 600;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--text-secondary);
+    white-space: nowrap;
+    border-bottom: 1px solid var(--border);
+    position: sticky;
+    top: 0;
+  }
+
+  tbody tr {
+    cursor: pointer;
+    transition: background 0.15s;
+  }
+
+  tbody tr:hover { background: var(--accent-light); }
+
+  tbody td {
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--border);
+    white-space: nowrap;
+    max-width: 200px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  /* Modal */
+  .modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.4);
+    z-index: 1000;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 40px 20px;
+    overflow-y: auto;
+    backdrop-filter: blur(2px);
+  }
+
+  .modal-overlay.open { display: flex; }
+
+  .modal {
+    background: var(--card);
+    border-radius: 14px;
+    width: 100%;
+    max-width: 720px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+    animation: modalIn 0.2s ease-out;
+  }
+
+  @keyframes modalIn {
+    from { opacity: 0; transform: translateY(20px) scale(0.98); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+  }
+
+  .modal-header {
+    padding: 28px 28px 0;
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+  }
+
+  .modal-header .avatar {
+    width: 56px;
+    height: 56px;
+    font-size: 1.3rem;
+  }
+
+  .modal-header-info {
+    flex: 1;
+  }
+
+  .modal-header-info h2 {
+    font-size: 1.3rem;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+  }
+
+  .modal-header-info p {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    margin-top: 2px;
+  }
+
+  .modal-close {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: none;
+    background: var(--tag-bg);
+    color: var(--text-secondary);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    transition: background 0.2s;
+    flex-shrink: 0;
+  }
+
+  .modal-close:hover { background: var(--border); }
+
+  .modal-body {
+    padding: 24px 28px 28px;
+  }
+
+  .modal-section {
+    margin-bottom: 24px;
+  }
+
+  .modal-section:last-child { margin-bottom: 0; }
+
+  .modal-section-title {
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--accent);
+    margin-bottom: 12px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .modal-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+  }
+
+  .modal-field {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .modal-field.full { grid-column: 1 / -1; }
+
+  .modal-field-label {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    font-weight: 600;
+  }
+
+  .modal-field-value {
+    font-size: 0.9rem;
+    line-height: 1.5;
+    white-space: pre-line;
+  }
+
+  .badge-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 500;
+  }
+
+  .badge-green { background: var(--green-bg); color: var(--green); }
+  .badge-red { background: var(--red-bg); color: var(--red); }
+  .badge-blue { background: var(--accent-light); color: var(--accent); }
+  .badge-yellow { background: var(--yellow-bg); color: var(--yellow); }
+
+  .level-bar {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .level-dots {
+    display: flex;
+    gap: 3px;
+  }
+
+  .level-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--border);
+  }
+
+  .level-dot.filled { background: var(--accent); }
+
+  .level-label {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+  }
+
+  .no-results {
+    text-align: center;
+    padding: 60px 20px;
+    color: var(--text-secondary);
+  }
+
+  .no-results svg {
+    margin-bottom: 12px;
+    opacity: 0.4;
+  }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .cards-grid { grid-template-columns: 1fr; }
+    .modal-grid { grid-template-columns: 1fr; }
+    .header h1 { font-size: 1.15rem; }
+    .card { padding: 18px; }
+    .modal-header, .modal-body { padding-left: 20px; padding-right: 20px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="container">
+    <div class="header-content">
+      <div>
+        <h1>Lanzadera de <span>Empleo</span></h1>
+      </div>
+      <div class="stats">
+        <span id="countDisplay"></span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+  <div class="search-section">
+    <div class="search-bar">
+      <div class="search-input-wrapper">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <input type="text" class="search-input" id="searchInput" placeholder="Buscar por nombre, ciudad, sector, puesto, capacidades...">
+      </div>
+      <div class="view-toggle">
+        <button id="btnCards" class="active" onclick="setView('cards')">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+          Tarjetas
+        </button>
+        <button id="btnTable" onclick="setView('table')">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
+          Tabla
+        </button>
+      </div>
+    </div>
+    <div class="filters-row">
+      <select id="filterCiudad"><option value="">Todas las ciudades</option></select>
+      <select id="filterEstudios"><option value="">Todos los estudios</option></select>
+      <select id="filterJornada"><option value="">Cualquier jornada</option></select>
+      <select id="filterRemoto"><option value="">Trabajo remoto</option></select>
+      <select id="filterCarnet"><option value="">Carnet de conducir</option></select>
+      <button class="clear-btn" onclick="clearFilters()">Limpiar filtros</button>
+    </div>
+  </div>
+
+  <div id="cardsView" class="cards-grid"></div>
+  <div id="tableView" class="table-wrapper" style="display:none"></div>
+</div>
+
+<!-- Modal -->
+<div class="modal-overlay" id="modal">
+  <div class="modal" id="modalContent"></div>
+</div>
+
+<script>
+const DATA = [{"nombre":"Jose Luis","apellidos":"Díaz Salvago","fechaNacimiento":"13/08/1982","ciudad":"Cádiz","telefono":"661581527","email":"salvago2001@gmail.com","carnet":"No","vehiculo":"No","ultimoPuesto":"Community Manager en casascadizcosta.com","sector":"Diseño gráfico e ilustración","experiencia":"7","capacidades":"Resolutivo, eficiente, directo, atento al detalle, amable, trabajo en equipo","dispGeografica":"Sí","jornada":"Indiferente","tipoContrato":"Temporal;Larga Duración;Practicas;","incorporacion":"Sí","sectorPreferencia":"Diseño, Artes y Publicidad","prefHoraria":"Noche;Tarde;Mañana;","remoto":"Sí","dispFormacion":"No","puestoPreferencia":"Diseñador Gráfico","salario":"1300-1700","empresaDiana":"","estudios":"Estudios Universitarios","titulacion":"Estudios Universitarios Superiores En Diseño Gráfico y Artes Publicitarias","cursos":"Curso Experto de la Uned en Desarrollo Web, Curso Experto en Desarrollo de Videojuegos con Unity, Curso FPO de desarrollo web con macromedia","nivelIngles":"4","idiomas":"Francés-B1, Portugués-A1","compDigitales":"9","meta3a5":"En un puesto que satisficiera mis comodidades personales, tanto dentro como fuera del entorno laboral.","empresaIdeal":"Una en la que el ambiente sea bueno, los compañeros como minimo cordiales, la jefatura o dirección coherente y tener las responsabilidades acordes a mi salario.","importante":"La estabilidad y el crecimiento profesional. porque como personas creo que es lo minimo que se pide para ser medianamente feliz en lo laboral.","expectativas":"Que todos o la gran mayoria pueda encontrar trabajo lo antes posible que es un grupo de personas magnifico.","reforzar":"Me gustaria ir un pelín más rápido para poder aprovechar al maximo los conocimientos que se puedan obtener de aquí. Me preocupa especialmente el ser capaz de pasar todos los filtros necesarios para poder afrontar las entrevistas de trabajo. Creo que en ocasiones vamos especialmente lentos."},{"nombre":"Macarena","apellidos":"Rueda Acedo","fechaNacimiento":"06/09/1985","ciudad":"San Fernando","telefono":"663992049","email":"macarenaruedaacedo@gmail.com","carnet":"Sí","vehiculo":"Sí","ultimoPuesto":"Teleoperadora","sector":"Teleoperadora","experiencia":"17","capacidades":"Trabajo en equipo, adaptación al cambio constante, trabajo en remoto, detectar con rapidez la necesidad del usuario","dispGeografica":"No","jornada":"Completa","tipoContrato":"Larga Duración","incorporacion":"Depende de la Oferta","sectorPreferencia":"Servicios/ contact center/ aux administrativo","prefHoraria":"Mañana","remoto":"Sí","dispFormacion":"Sí","puestoPreferencia":"Atención al cliente/ aux administrativo","salario":"1250","empresaDiana":"Vivofacil","estudios":"Educación Obligatoria","titulacion":"ESO","cursos":"Curso de consultor de seguros","nivelIngles":"1","idiomas":"No tengo","compDigitales":"6","meta3a5":"En el sector de teleasistencia o bien dentro de un servicio de calle center donde pueda ayudar al usuario","empresaIdeal":"En una empresa donde realmente me sienta cómoda, me valoren, tenga un salario justo, pueda desarrollar mis habilidades profesionales y tener conciliación","importante":"En primer lugar la estabilidad, no quiero sentir miedo a que en breve se acabará, luego me importa mucho el ambiente laboral, ir a gusto al trabajo es primordial y la flexibilidad.","expectativas":"Espero poder seguir conociendo a este gran equipo para crecer juntos","reforzar":""},{"nombre":"José Pedro","apellidos":"Punjabi Rodríguez","fechaNacimiento":"28/02/1970","ciudad":"El Puerto de Santa María","telefono":"627509535","email":"josepedro.punjabi@gmail.com","carnet":"Sí","vehiculo":"Sí","ultimoPuesto":"Docente informática","sector":"Industria y Docencia","experiencia":"30","capacidades":"Informática, venta, logística, compras","dispGeografica":"Sí","jornada":"Indiferente","tipoContrato":"Larga Duración;Temporal","incorporacion":"Sí","sectorPreferencia":"Consultoría IT","prefHoraria":"Mañana;Tarde","remoto":"Sí","dispFormacion":"Sí","puestoPreferencia":"Docente IT","salario":"1400 a 1900","empresaDiana":"Phoeniqs Hesperia","estudios":"Formación Profesional","titulacion":"Desarrollo de Aplicaciones Web (DAW)","cursos":"Inteligencia Artificial, Certificado profesionalidad Docencia","nivelIngles":"4","idiomas":"Español nativo, inglés intermedio","compDigitales":"10","meta3a5":"Consultoría IT. Desarrollador en la nube","empresaIdeal":"Consultorías IT, Academias de formación","importante":"Salario, flexibilidad y crecimiento profesional","expectativas":"Hacer equipo para mejorar profesionalmente","reforzar":"Recibir más feedback por parte de los orientadores"},{"nombre":"Silvia","apellidos":"Barrios Acosta","fechaNacimiento":"20/11/1993","ciudad":"Cádiz","telefono":"628-58-17-66","email":"silviabaracos@gmail.com","carnet":"No","vehiculo":"No","ultimoPuesto":"Administrativo","sector":"Sanidad","experiencia":"1 año y 3 meses","capacidades":"Empatía, trabajo en equipo e individual, comunicación efectiva, flexible, comprometida, organizada.","dispGeografica":"Sí","jornada":"Completa","tipoContrato":"Larga Duración","incorporacion":"Sí","sectorPreferencia":"Sanidad, Secretariado, Administración Documental","prefHoraria":"Mañana;Tarde","remoto":"Sí","dispFormacion":"Sí","puestoPreferencia":"Administración","salario":"1.300 a 1.500","empresaDiana":"Hospital Viamed, Hospital HLA La Salud, cualquier empresa de salud","estudios":"Formación Profesional","titulacion":"Técnico de Documentación y Administración Sanitaria","cursos":"Ley de Procedimiento Administrativo y Régimen Jurídico del Sector Público (100h), Sostenibilidad Ambiental (210h), Apoyo Psicológico y Social en Situaciones de Crisis (70h), Básico de Gestión de la Prevención de Riesgos Laborales (50h)","nivelIngles":"1","idiomas":"Ninguno","compDigitales":"7","meta3a5":"Con contrato Fijo a lo que lleva a la estabilidad laboral","empresaIdeal":"Con ambiente cómodo, compañeros reales, que el jefe comunique las cosas de forma eficiente y madura.","importante":"Estabilidad y salario.","expectativas":"","reforzar":""},{"nombre":"Marta","apellidos":"De Ory Ruiz","fechaNacimiento":"18/10/1977","ciudad":"San Fernando","telefono":"651189479","email":"Martica40@hotnail.com","carnet":"Sí","vehiculo":"No","ultimoPuesto":"Auxiliar mozo de almacén","sector":"Auxiliar administrativo","experiencia":"15","capacidades":"Auxiliar administrativo, técnico en farmacia, auxiliar mozo de almacén","dispGeografica":"No","jornada":"Indiferente","tipoContrato":"Temporal;Larga Duración","incorporacion":"Sí","sectorPreferencia":"Auxiliar administrativo, técnico en farmacia","prefHoraria":"Mañana;Noche","remoto":"Sí","dispFormacion":"Sí","puestoPreferencia":"Auxiliar administrativo, técnico en farmacia","salario":"1300","empresaDiana":"","estudios":"Formación Profesional","titulacion":"Técnico en farmacia","cursos":"Certificado de profesionalidad de gestión ambiental, Técnico auxiliar en odontología, TEC auxiliar de cuidados de animales de zoo","nivelIngles":"2","idiomas":"Inglés","compDigitales":"5","meta3a5":"Auxiliar administrativo, técnico en farmacia","empresaIdeal":"","importante":"Estar realizado y sentirse útil","expectativas":"Que todos encontremos trabajo de larga duración dentro de muy poco tiempo","reforzar":"Hablar en público"},{"nombre":"Manuel","apellidos":"Puente Dopazo","fechaNacimiento":"11/01/1970","ciudad":"Cádiz","telefono":"617011045","email":"manolodopa70@gmail.com","carnet":"Sí","vehiculo":"No","ultimoPuesto":"Diseño de publicidad en inmobiliaria Innysse","sector":"Venta y atención al público","experiencia":"26","capacidades":"Comercial, ventas, informática.","dispGeografica":"No","jornada":"Indiferente","tipoContrato":"Temporal;Larga Duración","incorporacion":"Sí","sectorPreferencia":"Marketing y comercio","prefHoraria":"Mañana;Tarde;Noche","remoto":"Sí","dispFormacion":"Sí","puestoPreferencia":"Marketing y comercio","salario":"1200-1300","empresaDiana":"Mercadona","estudios":"Marketing","titulacion":"COOM0012 Marketing y comunicación","cursos":"Prevención Riesgos Laborales, Mantenimiento y diseño de redes informáticas, Ciberseguridad, IA y ciberseguridad","nivelIngles":"3","idiomas":"Ninguno","compDigitales":"7","meta3a5":"Desarrollar todas mis capacidades profesionales","empresaIdeal":"Una donde pudiera desarrollar todas mis capacidades.","importante":"Ambiente laboral y flexibilidad.","expectativas":"Tener nuevos amigos y compañeros","reforzar":""},{"nombre":"José Luis","apellidos":"Estevez Morera","fechaNacimiento":"25/10/1967","ciudad":"Puerto Real","telefono":"651899148","email":"Estevezmorerajoseluis@gmail.com","carnet":"Sí","vehiculo":"Sí","ultimoPuesto":"Gerente de Red","sector":"Seguros","experiencia":"32","capacidades":"Orientación comercial y ventas, comunicación y divulgación, mentalidad emprendedora, orientación al cliente, conocimiento sector asegurador","dispGeografica":"Sí","jornada":"Completa","tipoContrato":"Larga Duración","incorporacion":"Sí","sectorPreferencia":"Asegurador","prefHoraria":"Mañana;Tarde","remoto":"Sí","dispFormacion":"Sí","puestoPreferencia":"En el que me haga crecer profesionalmente","salario":"Depende del puesto","empresaDiana":"No tengo","estudios":"Formación Profesional","titulacion":"Técnico superior en electrónica","cursos":"Marketing digital, office, ofimática","nivelIngles":"2","idiomas":"Inglés","compDigitales":"8","meta3a5":"Trabajando","empresaIdeal":"Una aseguradora","importante":"Estabilidad y ambiente laboral","expectativas":"Que todos cumplan sus objetivos","reforzar":"De momento nada"},{"nombre":"Juana Milagrosa","apellidos":"Grosso Garrido","fechaNacimiento":"27/11/1975","ciudad":"Cádiz","telefono":"607372967","email":"juanigrosso28@gmail.com","carnet":"Sí","vehiculo":"Sí","ultimoPuesto":"Dependienta","sector":"Dependienta y contadora-pagadora","experiencia":"24 años","capacidades":"Atención al cliente, escucha activa, resolución de quejas, técnicas de ventas, reposición y organización de mercancía, gestión de inventarios.","dispGeografica":"No","jornada":"Completa","tipoContrato":"Larga Duración","incorporacion":"Depende de la Oferta","sectorPreferencia":"Comercio, administración","prefHoraria":"Mañana","remoto":"Sí","dispFormacion":"Sí","puestoPreferencia":"Administrativo, atención al cliente","salario":"Según convenio","empresaDiana":"Ikea, Leroy Merlin, Corte Inglés","estudios":"Formación Profesional","titulacion":"Técnico Administrativo","cursos":"Capacitación digital, IA, Linkedin, Canva, monitora de comedor y aula matinal","nivelIngles":"2","idiomas":"Inglés","compDigitales":"7","meta3a5":"Con un trabajo estable y calidad de vida para disfrutar el tiempo libre con la familia","empresaIdeal":"En donde te sepan valorar","importante":"Estabilidad, crecimiento profesional, buen ambiente laboral.","expectativas":"Que todos podamos aportar y aprender algo nuevo.","reforzar":"No encontrar trabajo"},{"nombre":"Manuel","apellidos":"Quintero Fernández","fechaNacimiento":"06/04/2003","ciudad":"Cádiz","telefono":"692 18 59 28","email":"manuelquinterofernandez2003@gmail.com","carnet":"Sí","vehiculo":"Sí","ultimoPuesto":"Asistente a la Dirección","sector":"Administración","experiencia":"1 año","capacidades":"Organización de documentación, gestión de archivos digitalizados, dominio de Microsoft 360, creación de listados estadísticos, atención al cliente, conocimientos ofimáticos, mecanografía.","dispGeografica":"Sí","jornada":"Parcial","tipoContrato":"Temporal","incorporacion":"Depende de la Oferta","sectorPreferencia":"Administración","prefHoraria":"Mañana","remoto":"Sí","dispFormacion":"Sí","puestoPreferencia":"Asistente de la Dirección","salario":"1221/mes mínimo","empresaDiana":"Adecco","estudios":"Formación Profesional","titulacion":"Grado Superior en Asistencia a la Dirección","cursos":"Curso de creación de empresa","nivelIngles":"3","idiomas":"Francés-A1","compDigitales":"8","meta3a5":"Aprobar mis oposiciones y trabajar de lo que quiero.","empresaIdeal":"Una empresa acorde a mis principios, con buenas condiciones laborales y con buen ambiente.","importante":"Las condiciones laborales óptimas, flexibilidad horaria y opciones de ascender.","expectativas":"Aprender mucho de ellos y sus experiencias.","reforzar":"Conocimientos de búsqueda de trabajo"},{"nombre":"Desirée","apellidos":"Infestas Baños","fechaNacimiento":"15/10/1977","ciudad":"San Fernando","telefono":"680188775","email":"desinfestas77@gmail.com","carnet":"Sí","vehiculo":"Sí","ultimoPuesto":"Monitora - Ayuntamiento (Servicios Sociales)","sector":"Hostelería","experiencia":"22 años","capacidades":"Escucha activa, empatía, comunicación efectiva, capacidad para guiar, proactividad, organización, gestión emocional, resolución de problemas y trabajo en equipo.","dispGeografica":"Sí","jornada":"Indiferente","tipoContrato":"Temporal;Larga Duración","incorporacion":"Sí","sectorPreferencia":"Servicios Sociales e intervención comunitaria","prefHoraria":"Mañana;Tarde","remoto":"Sí","dispFormacion":"Sí","puestoPreferencia":"Intervención Social / Orientación Sociolaboral / Formación Online","salario":"1.200","empresaDiana":"Fundación Márgenes y Vínculos, Don Bosco, Hogar Betania, Acción Laboral, EQUA, Faisem","estudios":"Estudios Universitarios","titulacion":"Psicología","cursos":"Orientación e Inserción Sociolaboral, Mediación, Formación OnLine, Manejo de Trastornos de Conducta, Igualdad, Violencia de Género","nivelIngles":"1","idiomas":"Español - nativo","compDigitales":"7","meta3a5":"Como profesional en un programa de intervención social","empresaIdeal":"Ambiente dinámico, cooperativo, multirelacional que se trabaje en equipo con buen soporte de ayuda.","importante":"Todo lo mencionado ya que aporta una base sólida para mi bienestar emocional.","expectativas":"Que entre todos lleguemos a formar una gran alianza y podamos ayudarnos a sacar lo mejor de nosotros mismos.","reforzar":"Mi mayor preocupación es la desconfianza personal al tener que hablar de mí, sobre todo a nivel de competencias o capacidades."},{"nombre":"Esther","apellidos":"Benítez Barrios","fechaNacimiento":"21/12/1973","ciudad":"Cádiz","telefono":"676376634","email":"esthermigue@yahoo.es","carnet":"No","vehiculo":"No","ultimoPuesto":"Empresa Icano","sector":"Sector Naval","experiencia":"6","capacidades":"Ingeniería","dispGeografica":"No","jornada":"Parcial","tipoContrato":"Larga Duración;Practicas;Temporal","incorporacion":"Depende de la Oferta","sectorPreferencia":"Ingeniería","prefHoraria":"Tarde;Mañana","remoto":"No","dispFormacion":"Sí","puestoPreferencia":"Ingeniería","salario":"1200","empresaDiana":"Astilleros Cádiz","estudios":"Estudios Universitarios","titulacion":"Ingeniería Técnica Naval","cursos":"Curso de gestor de formación","nivelIngles":"4","idiomas":"Inglés B2","compDigitales":"4","meta3a5":"Fijo en una empresa competente","empresaIdeal":"Una empresa con buen ambiente y con sueldo digno","importante":"Un buen ambiente, horario y sueldo digno","expectativas":"Un grupo muy competente y con ganas","reforzar":"Las competencias digitales"},{"nombre":"Pablo","apellidos":"Mata Medina","fechaNacimiento":"25/08/1995","ciudad":"Jerez de la Frontera","telefono":"628633682","email":"pablomata.me@gmail.com","carnet":"Sí","vehiculo":"Sí","ultimoPuesto":"Editor y redactor de textos web en Brilla Comunicación","sector":"Comunicación","experiencia":"Dos años","capacidades":"Resolución de problemas, capacidad de adaptación, ingenio, buena comunicación oral y escrita, uso de Canva, Trello, paquete Microsoft","dispGeografica":"Sí","jornada":"Indiferente","tipoContrato":"Larga Duración;Temporal","incorporacion":"Sí","sectorPreferencia":"Comunicación, comercio","prefHoraria":"Mañana;Tarde","remoto":"Sí","dispFormacion":"Sí","puestoPreferencia":"Cualquiera","salario":"Indiferente dentro de la legalidad","empresaDiana":"Mercadona","estudios":"Estudios Universitarios","titulacion":"Grado en Periodismo","cursos":"Marketing digital, community manager y redes sociales con especialización en IA","nivelIngles":"5","idiomas":"Francés nivel básico","compDigitales":"8","meta3a5":"En una empresa que me ofrezca estabilidad y un sueldo para poder vivir por mi cuenta","empresaIdeal":"Relacionada con el mundo de la comunicación, agencia de publicidad, community manager...","importante":"El buen ambiente laboral y que sea lo más agradable posible para los trabajadores, incluida la materia económica.","expectativas":"Que entre todos podamos conseguir nuestros objetivos y nos ayudemos a dar los pasos necesarios.","reforzar":"Las relaciones directas con las empresas"},{"nombre":"Macarena","apellidos":"Navarro Bailón","fechaNacimiento":"25/04/1974","ciudad":"San Fernando","telefono":"620920763","email":"macanava04@hotmail.com","carnet":"Sí","vehiculo":"Sí","ultimoPuesto":"INFINAE S.L","sector":"Aux. Administrativo, Recepcionista, atención al cliente","experiencia":"27 años","capacidades":"Responsable, resolutiva, empática","dispGeografica":"Sí","jornada":"Indiferente","tipoContrato":"Larga Duración","incorporacion":"Sí","sectorPreferencia":"Atención al cliente, asesoramiento","prefHoraria":"Mañana","remoto":"Híbrido","dispFormacion":"Sí","puestoPreferencia":"Atención al cliente, recepción, aux. administrativo","salario":"S.M.I","empresaDiana":"IKEA, Decathlon, Leroy Merlin","estudios":"Formación Profesional","titulacion":"Comercio y Marketing, Secretariado de Dirección, Técnico en Información Turística, Atención al Cliente","cursos":"Secretariado de Dirección, Comercio y Marketing, Atención al Cliente, Técnico en Información Turística","nivelIngles":"2","idiomas":"No","compDigitales":"6","meta3a5":"En un puesto donde pueda desarrollarme profesionalmente y tener estabilidad.","empresaIdeal":"Donde pueda desarrollarme profesionalmente y tener estabilidad laboral.","importante":"Estabilidad, crecimiento, flexibilidad, buen ambiente laboral.","expectativas":"Conocimientos, orientación y contactos para ayuda al empleo.","reforzar":"Tener más tiempo y días de clases. Me preocupa no encontrar empleo estable."},{"nombre":"Imanol","apellidos":"Beristain Lora","fechaNacimiento":"23/05/1995","ciudad":"Sevilla","telefono":"658259819","email":"imaberlor@gmail.com","carnet":"No","vehiculo":"No","ultimoPuesto":"Periodista","sector":"Comunicación","experiencia":"8","capacidades":"Pensamiento crítico, gestión de crisis, trabajo en equipo, comunicación efectiva","dispGeografica":"Sí","jornada":"Indiferente","tipoContrato":"Temporal;Larga Duración","incorporacion":"Sí","sectorPreferencia":"Comunicación","prefHoraria":"Mañana;Tarde;Noche","remoto":"Sí","dispFormacion":"Sí","puestoPreferencia":"Técnico de comunicación, periodista, locutor de radio, presentador de TV","salario":"Según convenio","empresaDiana":"OCU, Real Betis Balompié, CEAR, elDiario.es, El Salto...","estudios":"Estudios Universitarios","titulacion":"Grado en Periodismo, Máster en Comunicación Institucional y Política, Máster en Patrimonio Artístico Andaluz","cursos":"Seminarios sobre Relaciones Jurídicas Internacionales, Inmersión en Lengua Inglesa, Capacitación como Agente Antirrumor, Ciberactivismo, Comunicación Antirracista","nivelIngles":"3","idiomas":"Título de Inglés B1 Cambridge","compDigitales":"9","meta3a5":"Trabajando de periodista en el departamento de alguna asociación o entidad del tercer sector en Sevilla.","empresaIdeal":"Organización con propósito social o comunicación institucional con ambiente colaborativo, dinámico y de confianza.","importante":"Crecimiento profesional en un buen ambiente laboral, flexibilidad y autonomía para desarrollar contenidos innovadores y de impacto social.","expectativas":"Que se mantenga la predisposición. Ser profesionales con lo que nos corresponde y dar el máximo.","reforzar":"Entiendo que hay perfiles diversos en conocimientos informáticos que pueden ralentizar el ritmo, pero también aportan en otros planos."},{"nombre":"Pedro Ángel","apellidos":"Armenteros Blanco","fechaNacimiento":"31/08/1991","ciudad":"Cádiz","telefono":"601369923","email":"pedro.armenteros.blanco@gmail.com","carnet":"Sí","vehiculo":"Sí","ultimoPuesto":"Teleoperador técnico de atención al cliente","sector":"Atención al cliente","experiencia":"1 año y 7 meses","capacidades":"Jurista, criminólogo, y técnico informático","dispGeografica":"Sí","jornada":"Indiferente","tipoContrato":"Temporal;Larga Duración","incorporacion":"Depende de la Oferta","sectorPreferencia":"Derecho y criminología","prefHoraria":"Indiferente","remoto":"Híbrido","dispFormacion":"Sí","puestoPreferencia":"Asesor jurídico","salario":"1221","empresaDiana":"Ninguna específica","estudios":"Estudios Universitarios","titulacion":"Grado en Derecho y Grado en Criminología y Seguridad","cursos":"Curso de iniciación a la IA, manipulador de alimentos, curso de atención al cliente","nivelIngles":"3","idiomas":"Ninguno","compDigitales":"8","meta3a5":"Realizando investigaciones de delitos cibernéticos","empresaIdeal":"Una centrada en ciberseguridad","importante":"Poder crecer profesionalmente y evolucionar en mi sector.","expectativas":"Que nos apoyemos cada una de las personas participantes en nuestras preferencias laborales.","reforzar":"Que haya un abanico más abierto de empleos"}];
+
+let currentView = 'cards';
+let filtered = [...DATA];
+
+function getInitials(p) {
+  return (p.nombre[0] + (p.apellidos ? p.apellidos[0] : '')).toUpperCase();
+}
+
+function normalize(s) {
+  return s.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+}
+
+function populateFilters() {
+  const ciudades = [...new Set(DATA.map(p => p.ciudad.trim()))].sort();
+  const estudios = [...new Set(DATA.map(p => p.estudios.trim()))].sort();
+  const jornadas = [...new Set(DATA.map(p => p.jornada.trim()))].sort();
+
+  const fCiudad = document.getElementById('filterCiudad');
+  ciudades.forEach(c => { const o = document.createElement('option'); o.value = c; o.textContent = c; fCiudad.appendChild(o); });
+
+  const fEstudios = document.getElementById('filterEstudios');
+  estudios.forEach(c => { const o = document.createElement('option'); o.value = c; o.textContent = c; fEstudios.appendChild(o); });
+
+  const fJornada = document.getElementById('filterJornada');
+  jornadas.forEach(c => { const o = document.createElement('option'); o.value = c; o.textContent = c; fJornada.appendChild(o); });
+
+  const fRemoto = document.getElementById('filterRemoto');
+  ['Sí', 'No', 'Híbrido'].forEach(c => { const o = document.createElement('option'); o.value = c; o.textContent = c === 'Sí' ? 'Sí - Remoto' : c === 'No' ? 'No remoto' : 'Híbrido'; fRemoto.appendChild(o); });
+
+  const fCarnet = document.getElementById('filterCarnet');
+  ['Sí', 'No'].forEach(c => { const o = document.createElement('option'); o.value = c; o.textContent = c === 'Sí' ? 'Con carnet' : 'Sin carnet'; fCarnet.appendChild(o); });
+}
+
+function applyFilters() {
+  const q = normalize(document.getElementById('searchInput').value);
+  const ciudad = document.getElementById('filterCiudad').value;
+  const estudios = document.getElementById('filterEstudios').value;
+  const jornada = document.getElementById('filterJornada').value;
+  const remoto = document.getElementById('filterRemoto').value;
+  const carnet = document.getElementById('filterCarnet').value;
+
+  filtered = DATA.filter(p => {
+    if (q) {
+      const searchable = normalize([p.nombre, p.apellidos, p.ciudad, p.sector, p.sectorPreferencia, p.puestoPreferencia, p.capacidades, p.titulacion, p.ultimoPuesto, p.estudios].join(' '));
+      if (!searchable.includes(q)) return false;
+    }
+    if (ciudad && p.ciudad.trim() !== ciudad) return false;
+    if (estudios && p.estudios.trim() !== estudios) return false;
+    if (jornada && p.jornada.trim() !== jornada) return false;
+    if (remoto && p.remoto.trim() !== remoto) return false;
+    if (carnet && p.carnet.trim() !== carnet) return false;
+    return true;
+  });
+
+  render();
+}
+
+function clearFilters() {
+  document.getElementById('searchInput').value = '';
+  document.getElementById('filterCiudad').value = '';
+  document.getElementById('filterEstudios').value = '';
+  document.getElementById('filterJornada').value = '';
+  document.getElementById('filterRemoto').value = '';
+  document.getElementById('filterCarnet').value = '';
+  applyFilters();
+}
+
+function setView(v) {
+  currentView = v;
+  document.getElementById('btnCards').classList.toggle('active', v === 'cards');
+  document.getElementById('btnTable').classList.toggle('active', v === 'table');
+  document.getElementById('cardsView').style.display = v === 'cards' ? 'grid' : 'none';
+  document.getElementById('tableView').style.display = v === 'table' ? 'block' : 'none';
+  render();
+}
+
+function formatContratos(s) {
+  return s.replace(/;/g, ', ').replace(/, $/, '');
+}
+
+function renderCards() {
+  const el = document.getElementById('cardsView');
+  if (filtered.length === 0) {
+    el.innerHTML = '<div class="no-results"><svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg><p>No se encontraron resultados</p></div>';
+    return;
+  }
+  el.innerHTML = filtered.map((p, i) => `
+    <div class="card" onclick="openModal(${DATA.indexOf(p)})">
+      <div class="card-header">
+        <div class="avatar">${getInitials(p)}</div>
+        <div>
+          <div class="card-name">${p.nombre} ${p.apellidos}</div>
+          <div class="card-subtitle">${p.puestoPreferencia}</div>
+        </div>
+      </div>
+      <div class="card-tags">
+        <span class="tag tag-sector">${p.sectorPreferencia.split(',')[0].split('/')[0].trim()}</span>
+        <span class="tag tag-city">${p.ciudad}</span>
+        ${p.incorporacion === 'Sí' ? '<span class="tag tag-yes">Incorporación inmediata</span>' : ''}
+        ${p.remoto === 'Sí' ? '<span class="tag tag-yes">Remoto</span>' : p.remoto === 'Híbrido' ? '<span class="tag tag-yes">Híbrido</span>' : ''}
+      </div>
+      <div class="card-info">
+        <div class="info-item"><span class="info-label">Experiencia</span><span class="info-value">${p.experiencia}</span></div>
+        <div class="info-item"><span class="info-label">Estudios</span><span class="info-value">${p.estudios}</span></div>
+        <div class="info-item"><span class="info-label">Jornada</span><span class="info-value">${p.jornada}</span></div>
+        <div class="info-item"><span class="info-label">Salario</span><span class="info-value">${p.salario}</span></div>
+      </div>
+    </div>
+  `).join('');
+}
+
+function renderTable() {
+  const el = document.getElementById('tableView');
+  if (filtered.length === 0) {
+    el.innerHTML = '<div class="no-results"><p>No se encontraron resultados</p></div>';
+    return;
+  }
+  el.innerHTML = `<table>
+    <thead><tr>
+      <th>Nombre</th><th>Ciudad</th><th>Sector Preferencia</th><th>Puesto Preferencia</th><th>Experiencia</th><th>Estudios</th><th>Jornada</th><th>Remoto</th><th>Salario</th>
+    </tr></thead>
+    <tbody>${filtered.map(p => `
+      <tr onclick="openModal(${DATA.indexOf(p)})">
+        <td><strong>${p.nombre} ${p.apellidos}</strong></td>
+        <td>${p.ciudad}</td>
+        <td>${p.sectorPreferencia}</td>
+        <td>${p.puestoPreferencia}</td>
+        <td>${p.experiencia}</td>
+        <td>${p.estudios}</td>
+        <td>${p.jornada}</td>
+        <td>${p.remoto}</td>
+        <td>${p.salario}</td>
+      </tr>
+    `).join('')}</tbody></table>`;
+}
+
+function render() {
+  document.getElementById('countDisplay').innerHTML = `Mostrando <strong>${filtered.length}</strong> de ${DATA.length} participantes`;
+  if (currentView === 'cards') renderCards();
+  else renderTable();
+}
+
+function levelDots(val, max = 10) {
+  const n = parseInt(val) || 0;
+  let html = '<div class="level-bar"><div class="level-dots">';
+  for (let i = 1; i <= max; i++) html += `<div class="level-dot${i <= n ? ' filled' : ''}"></div>`;
+  html += `</div><span class="level-label">${n}/${max}</span></div>`;
+  return html;
+}
+
+function openModal(idx) {
+  const p = DATA[idx];
+  const mc = document.getElementById('modalContent');
+  mc.innerHTML = `
+    <div class="modal-header">
+      <div class="avatar">${getInitials(p)}</div>
+      <div class="modal-header-info">
+        <h2>${p.nombre} ${p.apellidos}</h2>
+        <p>${p.ciudad} · ${p.fechaNacimiento} · ${p.telefono}</p>
+      </div>
+      <button class="modal-close" onclick="closeModal()">&times;</button>
+    </div>
+    <div class="modal-body">
+      <div class="modal-section">
+        <div class="modal-section-title">Datos personales</div>
+        <div class="modal-grid">
+          <div class="modal-field"><span class="modal-field-label">Email</span><span class="modal-field-value">${p.email}</span></div>
+          <div class="modal-field"><span class="modal-field-label">Teléfono</span><span class="modal-field-value">${p.telefono}</span></div>
+          <div class="modal-field"><span class="modal-field-label">Fecha nacimiento</span><span class="modal-field-value">${p.fechaNacimiento}</span></div>
+          <div class="modal-field"><span class="modal-field-label">Ciudad</span><span class="modal-field-value">${p.ciudad}</span></div>
+        </div>
+        <div class="badge-row" style="margin-top:12px">
+          <span class="badge ${p.carnet === 'Sí' ? 'badge-green' : 'badge-red'}">Carnet: ${p.carnet}</span>
+          <span class="badge ${p.vehiculo === 'Sí' ? 'badge-green' : 'badge-red'}">Vehículo: ${p.vehiculo}</span>
+          <span class="badge ${p.incorporacion === 'Sí' ? 'badge-green' : p.incorporacion === 'No' ? 'badge-red' : 'badge-yellow'}">Incorporación: ${p.incorporacion}</span>
+          <span class="badge ${p.dispGeografica === 'Sí' ? 'badge-green' : 'badge-red'}">Disp. geográfica: ${p.dispGeografica}</span>
+        </div>
+      </div>
+
+      <div class="modal-section">
+        <div class="modal-section-title">Experiencia profesional</div>
+        <div class="modal-grid">
+          <div class="modal-field"><span class="modal-field-label">Último puesto</span><span class="modal-field-value">${p.ultimoPuesto}</span></div>
+          <div class="modal-field"><span class="modal-field-label">Sector</span><span class="modal-field-value">${p.sector}</span></div>
+          <div class="modal-field"><span class="modal-field-label">Experiencia</span><span class="modal-field-value">${p.experiencia} años</span></div>
+          <div class="modal-field full"><span class="modal-field-label">Capacidades</span><span class="modal-field-value">${p.capacidades}</span></div>
+        </div>
+      </div>
+
+      <div class="modal-section">
+        <div class="modal-section-title">Preferencias laborales</div>
+        <div class="modal-grid">
+          <div class="modal-field"><span class="modal-field-label">Sector preferencia</span><span class="modal-field-value">${p.sectorPreferencia}</span></div>
+          <div class="modal-field"><span class="modal-field-label">Puesto preferencia</span><span class="modal-field-value">${p.puestoPreferencia}</span></div>
+          <div class="modal-field"><span class="modal-field-label">Jornada</span><span class="modal-field-value">${p.jornada}</span></div>
+          <div class="modal-field"><span class="modal-field-label">Tipo contrato</span><span class="modal-field-value">${formatContratos(p.tipoContrato)}</span></div>
+          <div class="modal-field"><span class="modal-field-label">Preferencia horaria</span><span class="modal-field-value">${formatContratos(p.prefHoraria)}</span></div>
+          <div class="modal-field"><span class="modal-field-label">Trabajo remoto</span><span class="modal-field-value">${p.remoto}</span></div>
+          <div class="modal-field"><span class="modal-field-label">Salario bruto mensual</span><span class="modal-field-value">${p.salario}</span></div>
+          <div class="modal-field"><span class="modal-field-label">Empresa diana</span><span class="modal-field-value">${p.empresaDiana || '—'}</span></div>
+        </div>
+      </div>
+
+      <div class="modal-section">
+        <div class="modal-section-title">Formación</div>
+        <div class="modal-grid">
+          <div class="modal-field"><span class="modal-field-label">Nivel de estudios</span><span class="modal-field-value">${p.estudios}</span></div>
+          <div class="modal-field"><span class="modal-field-label">Titulación</span><span class="modal-field-value">${p.titulacion}</span></div>
+          <div class="modal-field full"><span class="modal-field-label">Cursos relevantes</span><span class="modal-field-value">${p.cursos || '—'}</span></div>
+        </div>
+      </div>
+
+      <div class="modal-section">
+        <div class="modal-section-title">Competencias</div>
+        <div class="modal-grid">
+          <div class="modal-field"><span class="modal-field-label">Nivel de inglés</span>${levelDots(p.nivelIngles)}</div>
+          <div class="modal-field"><span class="modal-field-label">Competencias digitales</span>${levelDots(p.compDigitales)}</div>
+          <div class="modal-field full"><span class="modal-field-label">Idiomas adicionales</span><span class="modal-field-value">${p.idiomas || '—'}</span></div>
+          <div class="modal-field"><span class="modal-field-label">Disp. para formación</span><span class="modal-field-value">${p.dispFormacion}</span></div>
+        </div>
+      </div>
+
+      ${(p.meta3a5 || p.empresaIdeal || p.importante) ? `
+      <div class="modal-section">
+        <div class="modal-section-title">Objetivos y motivación</div>
+        <div class="modal-grid">
+          ${p.meta3a5 ? `<div class="modal-field full"><span class="modal-field-label">Meta profesional 3-5 años</span><span class="modal-field-value">${p.meta3a5}</span></div>` : ''}
+          ${p.empresaIdeal ? `<div class="modal-field full"><span class="modal-field-label">Empresa ideal</span><span class="modal-field-value">${p.empresaIdeal}</span></div>` : ''}
+          ${p.importante ? `<div class="modal-field full"><span class="modal-field-label">Lo más importante en un trabajo</span><span class="modal-field-value">${p.importante}</span></div>` : ''}
+        </div>
+      </div>` : ''}
+
+      ${(p.expectativas || p.reforzar) ? `
+      <div class="modal-section">
+        <div class="modal-section-title">Sobre la Lanzadera</div>
+        <div class="modal-grid">
+          ${p.expectativas ? `<div class="modal-field full"><span class="modal-field-label">Expectativas del grupo</span><span class="modal-field-value">${p.expectativas}</span></div>` : ''}
+          ${p.reforzar ? `<div class="modal-field full"><span class="modal-field-label">Qué reforzar / Preocupaciones</span><span class="modal-field-value">${p.reforzar}</span></div>` : ''}
+        </div>
+      </div>` : ''}
+    </div>
+  `;
+  document.getElementById('modal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeModal() {
+  document.getElementById('modal').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+document.getElementById('modal').addEventListener('click', function(e) {
+  if (e.target === this) closeModal();
+});
+
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') closeModal();
+});
+
+// Event listeners
+document.getElementById('searchInput').addEventListener('input', applyFilters);
+document.getElementById('filterCiudad').addEventListener('change', applyFilters);
+document.getElementById('filterEstudios').addEventListener('change', applyFilters);
+document.getElementById('filterJornada').addEventListener('change', applyFilters);
+document.getElementById('filterRemoto').addEventListener('change', applyFilters);
+document.getElementById('filterCarnet').addEventListener('change', applyFilters);
+
+populateFilters();
+render();
+</script>
+</body>
+</html>
