@@ -634,7 +634,7 @@ let DATA = [];
 
 async function loadData() {
   try {
-    const resp = await fetch('data.json');
+    const resp = await fetch('data.json?v=' + Date.now());
     DATA = await resp.json();
   } catch(e) {
     console.error('Error loading data:', e);
