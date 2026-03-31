@@ -124,6 +124,30 @@
   .post-count { display: inline-flex; align-items: center; gap: 6px; background: var(--accent-light); color: var(--accent); padding: 4px 14px; border-radius: 20px; font-size: 0.82rem; font-weight: 600; margin-bottom: 10px; }
   .add-post-btn { padding: 8px 18px; background: var(--accent); color: white; border: none; border-radius: 8px; font-size: 0.85rem; cursor: pointer; font-weight: 600; margin-top: 12px; transition: background 0.2s; }
   .add-post-btn:hover { background: #1d4ed8; }
+  .edit-post-btn { padding: 3px 10px; background: var(--tag-bg); color: var(--text-secondary); border: 1px solid var(--border); border-radius: 6px; font-size: 0.73rem; cursor: pointer; font-weight: 500; transition: all 0.15s; white-space: nowrap; }
+  .edit-post-btn:hover { background: var(--accent-light); color: var(--accent); border-color: var(--accent); }
+
+  /* Postulación form modal */
+  .pform-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.6); z-index: 300; align-items: center; justify-content: center; padding: 20px; }
+  .pform-overlay.open { display: flex; }
+  .pform-modal { background: var(--card); border-radius: 12px; max-width: 560px; width: 100%; padding: 28px; box-shadow: 0 20px 60px rgba(0,0,0,0.2); max-height: 90vh; overflow-y: auto; }
+  .pform-title { font-size: 1.1rem; font-weight: 700; margin-bottom: 4px; }
+  .pform-subtitle { font-size: 0.83rem; color: var(--text-secondary); margin-bottom: 20px; }
+  .pform-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .pform-field { display: flex; flex-direction: column; gap: 5px; }
+  .pform-field.full { grid-column: 1 / -1; }
+  .pform-label { font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; color: var(--text-secondary); }
+  .pform-input { padding: 9px 12px; border: 1px solid var(--border); border-radius: 8px; font-size: 0.88rem; outline: none; background: var(--bg); transition: border-color 0.2s; }
+  .pform-input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(37,99,235,0.1); }
+  select.pform-input { appearance: none; background: var(--bg) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%236b7280' stroke-width='2.5'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E") no-repeat right 10px center; padding-right: 28px; }
+  textarea.pform-input { resize: vertical; min-height: 70px; font-family: inherit; }
+  .pform-actions { display: flex; gap: 10px; margin-top: 20px; justify-content: flex-end; }
+  .pform-cancel { padding: 9px 20px; border: 1px solid var(--border); border-radius: 8px; background: var(--card); color: var(--text-secondary); font-size: 0.88rem; cursor: pointer; font-weight: 500; }
+  .pform-submit { padding: 9px 24px; background: var(--accent); color: white; border: none; border-radius: 8px; font-size: 0.88rem; cursor: pointer; font-weight: 600; transition: background 0.2s; }
+  .pform-submit:hover { background: #1d4ed8; }
+  .pform-submit:disabled { opacity: 0.6; cursor: default; }
+  .pform-toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%); background: #1a1a1a; color: white; padding: 12px 24px; border-radius: 8px; font-size: 0.88rem; font-weight: 500; z-index: 400; opacity: 0; transition: opacity 0.3s; pointer-events: none; }
+  .pform-toast.show { opacity: 1; }
 
   /* Empresas Diana */
   .empresas-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 16px; padding: 20px 0 40px; }
@@ -253,6 +277,57 @@
   <div class="modal" id="modalContent"></div>
 </div>
 
+<!-- Formulario de postulación (añadir / editar) -->
+<div class="pform-overlay" id="pformOverlay" onclick="if(event.target===this)closePForm()">
+  <div class="pform-modal">
+    <div class="pform-title" id="pformTitle">Nueva postulación</div>
+    <div class="pform-subtitle" id="pformSubtitle"></div>
+    <div class="pform-grid">
+      <div class="pform-field">
+        <label class="pform-label" for="pf_fecha">Fecha</label>
+        <input class="pform-input" type="text" id="pf_fecha" placeholder="dd/mm/aaaa">
+      </div>
+      <div class="pform-field">
+        <label class="pform-label" for="pf_empresa">Empresa</label>
+        <input class="pform-input" type="text" id="pf_empresa" placeholder="Nombre de la empresa">
+      </div>
+      <div class="pform-field">
+        <label class="pform-label" for="pf_vacante">Vacante</label>
+        <input class="pform-input" type="text" id="pf_vacante" placeholder="Puesto al que optas">
+      </div>
+      <div class="pform-field">
+        <label class="pform-label" for="pf_lugar">Lugar</label>
+        <input class="pform-input" type="text" id="pf_lugar" placeholder="Ciudad / portal web">
+      </div>
+      <div class="pform-field full">
+        <label class="pform-label" for="pf_web">Portal / enlace</label>
+        <input class="pform-input" type="text" id="pf_web" placeholder="Infojobs, LinkedIn, web empresa...">
+      </div>
+      <div class="pform-field">
+        <label class="pform-label" for="pf_entrevista">¿Entrevista?</label>
+        <select class="pform-input" id="pf_entrevista">
+          <option value="No">No</option>
+          <option value="Sí">Sí</option>
+        </select>
+      </div>
+      <div class="pform-field">
+        <label class="pform-label" for="pf_resultado">Resultado</label>
+        <input class="pform-input" type="text" id="pf_resultado" placeholder="Descartado, en proceso...">
+      </div>
+      <div class="pform-field full">
+        <label class="pform-label" for="pf_observaciones">Observaciones</label>
+        <textarea class="pform-input" id="pf_observaciones" placeholder="Detalles adicionales..."></textarea>
+      </div>
+    </div>
+    <div class="pform-actions">
+      <button class="pform-cancel" onclick="closePForm()">Cancelar</button>
+      <button class="pform-submit" id="pformSubmitBtn" onclick="submitPForm()">Guardar</button>
+    </div>
+  </div>
+</div>
+
+<div class="pform-toast" id="pformToast"></div>
+
 <script>
 let DATA = [];
 let EMPRESAS = [];
@@ -260,6 +335,14 @@ let POSTULACIONES = {};
 let filtered = [];
 let currentView = 'cards';
 let currentModalIdx = 0;
+
+// ← Pega aquí la URL del Apps Script desplegado
+const APPS_SCRIPT_URL = '';
+
+// Estado del formulario de postulación
+let pformMode = 'add';       // 'add' | 'edit'
+let pformParticipante = '';  // nombre completo del participante
+let pformPostId = null;      // ID de la postulación (solo en modo editar)
 
 async function loadData() {
   try {
@@ -529,15 +612,7 @@ function openModal(idx) {
   const p = DATA[idx];
   const posts = getPostulaciones(p);
 
-  let postHTML = '';
-  if (posts.length > 0) {
-    postHTML = '<div class="post-count">📋 ' + posts.length + ' postulaciones</div>' +
-      '<div style="overflow-x:auto"><table class="post-table"><thead><tr><th>Fecha</th><th>Empresa</th><th>Vacante</th><th>Lugar</th><th>Entrevista</th><th>Resultado</th></tr></thead><tbody>' +
-      posts.map(pt => '<tr><td>' + pt.fecha + '</td><td>' + pt.empresa + '</td><td>' + pt.vacante + '</td><td>' + pt.lugar + '</td><td>' + (pt.entrevista === 'Sí' ? '<span style="color:var(--green);font-weight:600">Sí</span>' : pt.entrevista) + '</td><td>' + (pt.resultado || '\u2014') + '</td></tr>').join('') +
-      '</tbody></table></div>';
-  } else {
-    postHTML = '<p style="color:var(--text-secondary);font-style:italic">Sin postulaciones registradas</p>';
-  }
+  let postHTML = buildPostHTML(posts, p);
 
   document.getElementById('modalContent').innerHTML = `
     <button class="modal-close" onclick="closeModal()">×</button>
@@ -631,7 +706,6 @@ function openModal(idx) {
     <div class="modal-section">
       <div class="modal-section-title">Postulaciones</div>
       ${postHTML}
-      <button class="add-post-btn" onclick="addPostulacion('${getFullName(p).replace(/'/g, "\\'")}')">➕ Añadir postulación</button>
     </div>
   `;
 
@@ -644,8 +718,131 @@ function closeModal() {
   document.body.style.overflow = '';
 }
 
-function addPostulacion(name) {
-  alert('Próximamente: formulario de postulaciones para ' + name);
+/* ─── Helpers postulaciones ──────────────────────────────── */
+function buildPostHTML(posts, p) {
+  const name = getFullName(p);
+  const addBtn = '<button class="add-post-btn" onclick="openPForm(\'add\',\'' + name.replace(/'/g, "\\'") + '\')">➕ Añadir postulación</button>';
+  if (!posts.length) {
+    return '<p style="color:var(--text-secondary);font-style:italic;margin-bottom:10px">Sin postulaciones registradas</p>' + addBtn;
+  }
+  const rows = posts.map(pt => {
+    const id = pt.id || '';
+    const safeName = name.replace(/'/g, "\\'");
+    const editBtn = '<button class="edit-post-btn" onclick="event.stopPropagation();openPForm(\'edit\',\'' + safeName + '\',' + JSON.stringify(pt).replace(/'/g, "\\'") + ')">✏️ Editar</button>';
+    return '<tr>' +
+      '<td>' + (pt.fecha || '—') + '</td>' +
+      '<td><strong>' + (pt.empresa || '—') + '</strong></td>' +
+      '<td>' + (pt.vacante || '—') + '</td>' +
+      '<td>' + (pt.lugar || '—') + '</td>' +
+      '<td>' + (pt.entrevista === 'Sí' ? '<span style="color:var(--green);font-weight:600">✓ Sí</span>' : '<span style="color:var(--text-secondary)">No</span>') + '</td>' +
+      '<td>' + (pt.resultado || '—') + '</td>' +
+      '<td>' + editBtn + '</td>' +
+      '</tr>';
+  }).join('');
+  return '<div class="post-count">📋 ' + posts.length + ' postulaciones</div>' +
+    '<div style="overflow-x:auto"><table class="post-table"><thead><tr>' +
+    '<th>Fecha</th><th>Empresa</th><th>Vacante</th><th>Lugar</th><th>Entrevista</th><th>Resultado</th><th></th>' +
+    '</tr></thead><tbody>' + rows + '</tbody></table></div>' + addBtn;
+}
+
+/* ─── Formulario postulación ─────────────────────────────── */
+function openPForm(mode, participante, postData) {
+  pformMode = mode;
+  pformParticipante = participante;
+  pformPostId = postData ? (postData.id || null) : null;
+
+  document.getElementById('pformTitle').textContent = mode === 'add' ? '➕ Nueva postulación' : '✏️ Editar postulación';
+  document.getElementById('pformSubtitle').textContent = participante;
+
+  // Rellenar campos
+  document.getElementById('pf_fecha').value        = postData ? (postData.fecha || '') : '';
+  document.getElementById('pf_empresa').value      = postData ? (postData.empresa || '') : '';
+  document.getElementById('pf_vacante').value      = postData ? (postData.vacante || '') : '';
+  document.getElementById('pf_lugar').value        = postData ? (postData.lugar || '') : '';
+  document.getElementById('pf_web').value          = postData ? (postData.web || '') : '';
+  document.getElementById('pf_entrevista').value   = postData ? (postData.entrevista || 'No') : 'No';
+  document.getElementById('pf_resultado').value    = postData ? (postData.resultado || '') : '';
+  document.getElementById('pf_observaciones').value= postData ? (postData.observaciones || '') : '';
+
+  document.getElementById('pformOverlay').classList.add('open');
+}
+
+function closePForm() {
+  document.getElementById('pformOverlay').classList.remove('open');
+}
+
+async function submitPForm() {
+  const empresa = document.getElementById('pf_empresa').value.trim();
+  if (!empresa) { document.getElementById('pf_empresa').focus(); return; }
+
+  const btn = document.getElementById('pformSubmitBtn');
+  btn.disabled = true;
+  btn.textContent = 'Guardando...';
+
+  const payload = {
+    action:        pformMode === 'add' ? 'add' : 'update',
+    participante:  pformParticipante,
+    fecha:         document.getElementById('pf_fecha').value.trim(),
+    empresa:       empresa,
+    vacante:       document.getElementById('pf_vacante').value.trim(),
+    lugar:         document.getElementById('pf_lugar').value.trim(),
+    web:           document.getElementById('pf_web').value.trim(),
+    entrevista:    document.getElementById('pf_entrevista').value,
+    resultado:     document.getElementById('pf_resultado').value.trim(),
+    observaciones: document.getElementById('pf_observaciones').value.trim(),
+  };
+  if (pformMode === 'edit' && pformPostId) payload.id = pformPostId;
+
+  // Actualizar localmente de inmediato para feedback instantáneo
+  const newId = pformPostId || Date.now().toString();
+  const newPost = { ...payload, id: newId };
+  delete newPost.action;
+
+  if (!POSTULACIONES[pformParticipante]) POSTULACIONES[pformParticipante] = [];
+  if (pformMode === 'add') {
+    POSTULACIONES[pformParticipante].push(newPost);
+  } else {
+    const idx = POSTULACIONES[pformParticipante].findIndex(p => p.id === pformPostId);
+    if (idx >= 0) POSTULACIONES[pformParticipante][idx] = newPost;
+  }
+
+  // Refrescar tabla en el modal de participante
+  const p = DATA[currentModalIdx];
+  if (p && getFullName(p) === pformParticipante) {
+    const postSection = document.querySelector('#modalContent .modal-section:last-child .modal-section-title');
+    if (postSection) {
+      const posts = getPostulaciones(p);
+      const parent = postSection.parentElement;
+      parent.innerHTML = '<div class="modal-section-title">Postulaciones</div>' + buildPostHTML(posts, p);
+    }
+  }
+
+  closePForm();
+  showToast(pformMode === 'add' ? '✓ Postulación añadida' : '✓ Postulación actualizada');
+
+  // Enviar al servidor en background
+  if (APPS_SCRIPT_URL) {
+    try {
+      await fetch(APPS_SCRIPT_URL, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+    } catch(e) { console.warn('Sync error:', e); }
+  } else {
+    console.warn('APPS_SCRIPT_URL no configurada. Los datos se guardan localmente hasta que configures el script.');
+  }
+
+  btn.disabled = false;
+  btn.textContent = 'Guardar';
+}
+
+function showToast(msg) {
+  const t = document.getElementById('pformToast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 3000);
 }
 
 /* EMPRESAS DIANA */
