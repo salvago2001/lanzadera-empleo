@@ -633,6 +633,17 @@ function addPostulacion(name) {
 }
 
 /* EMPRESAS DIANA */
+function renderInterestedHTML(empresaNombre) {
+  const interested = getInterestedParticipants(empresaNombre);
+  if (!interested.length) return '';
+  return '<div class="empresa-interested"><div class="empresa-interested-title">Participantes interesados</div><div class="empresa-interested-list">' +
+    interested.map(function(p) {
+      var idx = DATA.indexOf(p);
+      var img = p.foto ? '<img src="' + p.foto + '" onerror="this.style.display=\'none\'">' : '';
+      return '<span class="empresa-interested-chip" onclick="switchTab(\'participantes\');setTimeout(function(){openModal(' + idx + ')},100)">' + img + p.nombre + ' ' + (p.apellidos ? p.apellidos.split(' ')[0] : '') + '</span>';
+    }).join('') + '</div></div>';
+}
+
 function renderEmpresas() {
   const q = normalize(document.getElementById('empresaSearch')?.value || '');
   const grid = document.getElementById('empresasGrid');
@@ -652,16 +663,7 @@ function renderEmpresas() {
         ${e.correo && e.correo !== 'NO TIENE' ? '<div class="empresa-info-row"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg><a href="mailto:' + e.correo + '">' + e.correo + '</a></div>' : ''}
         ${webLinks ? '<div class="empresa-info-row"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg><div>' + webLinks + '</div></div>' : ''}
       </div>
-      \${(() => {
-        const interested = getInterestedParticipants(e.nombre);
-        if (!interested.length) return '';
-        return '<div class="empresa-interested"><div class="empresa-interested-title">Participantes interesados</div><div class="empresa-interested-list">' +
-          interested.map(p => {
-            const idx = DATA.indexOf(p);
-            const img = p.foto ? '<img src="' + p.foto + '" onerror="this.style.display=\\'none\\'">' : '';
-            return '<span class="empresa-interested-chip" onclick="switchTab(\\'participantes\\');setTimeout(()=>openModal(' + idx + '),100)">' + img + p.nombre + ' ' + (p.apellidos ? p.apellidos.split(' ')[0] : '') + '</span>';
-          }).join('') + '</div></div>';
-      })()}
+      ${renderInterestedHTML(e.nombre)}
     </div>`;
   }).join('');
 }
