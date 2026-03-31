@@ -127,8 +127,15 @@
 
   /* Empresas Diana */
   .empresas-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 16px; padding: 20px 0 40px; }
-  .empresa-card { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 24px; transition: box-shadow 0.2s; }
+  .empresa-card { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 24px; transition: box-shadow 0.2s, border-color 0.2s; }
   .empresa-card:hover { box-shadow: var(--shadow-lg); }
+  @keyframes empresaPulse {
+    0%   { box-shadow: 0 0 0 0px rgba(99,102,241,0.6); border-color: var(--accent); }
+    40%  { box-shadow: 0 0 0 8px rgba(99,102,241,0.25); border-color: var(--accent); }
+    70%  { box-shadow: 0 0 0 14px rgba(99,102,241,0.08); border-color: var(--accent); }
+    100% { box-shadow: 0 0 0 0px rgba(99,102,241,0); border-color: var(--accent); }
+  }
+  .empresa-highlight { animation: empresaPulse 2.2s ease-out forwards; border-color: var(--accent) !important; }
   .empresa-name { font-size: 1.05rem; font-weight: 700; margin-bottom: 8px; color: var(--text); }
   .empresa-area { font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 14px; line-height: 1.5; }
   .empresa-info { display: flex; flex-direction: column; gap: 6px; font-size: 0.82rem; }
@@ -311,13 +318,22 @@ function matchEmpresaDiana(text) {
 }
 
 function openEmpresa(idx) {
-  switchTab('empresas');
+  // Close participant modal first
+  const overlay = document.querySelector('.modal-overlay');
+  if (overlay) overlay.classList.remove('open');
+  document.body.style.overflow = '';
+  // Switch tab and highlight card after modal closes
   setTimeout(() => {
-    const cards = document.querySelectorAll('.empresa-card');
-    if (cards[idx]) cards[idx].scrollIntoView({behavior: 'smooth', block: 'center'});
-    cards[idx]?.style.setProperty('box-shadow', '0 0 0 3px var(--accent)', '');
-    setTimeout(() => cards[idx]?.style.removeProperty('box-shadow'), 2000);
-  }, 100);
+    switchTab('empresas');
+    setTimeout(() => {
+      const cards = document.querySelectorAll('.empresa-card');
+      const card = cards[idx];
+      if (!card) return;
+      card.scrollIntoView({behavior: 'smooth', block: 'center'});
+      card.classList.add('empresa-highlight');
+      setTimeout(() => card.classList.remove('empresa-highlight'), 2200);
+    }, 150);
+  }, 200);
 }
 
 function getInterestedParticipants(empresaNombre) {
