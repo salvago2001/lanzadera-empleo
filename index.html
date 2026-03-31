@@ -152,6 +152,18 @@
   .bar-value { font-size: 0.75rem; font-weight: 700; color: white; }
   .bar-value-outside { font-size: 0.75rem; font-weight: 600; color: var(--text-secondary); margin-left: 8px; }
 
+
+  .avatar-img { width: 48px; height: 48px; border-radius: 50%; object-fit: cover; flex-shrink: 0; }
+  .modal-avatar-img { width: 56px; height: 56px; border-radius: 50%; object-fit: cover; }
+  .empresa-interested { margin-top: 14px; padding-top: 12px; border-top: 1px solid var(--border); }
+  .empresa-interested-title { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.04em; color: var(--text-secondary); margin-bottom: 8px; font-weight: 600; }
+  .empresa-interested-list { display: flex; flex-wrap: wrap; gap: 6px; }
+  .empresa-interested-chip { display: inline-flex; align-items: center; gap: 6px; padding: 4px 12px; border-radius: 20px; font-size: 0.78rem; background: var(--accent-light); color: var(--accent); font-weight: 500; cursor: pointer; transition: all 0.2s; }
+  .empresa-interested-chip:hover { background: var(--accent); color: white; }
+  .empresa-interested-chip img { width: 20px; height: 20px; border-radius: 50%; object-fit: cover; }
+  .empresa-link { color: var(--accent); cursor: pointer; text-decoration: underline; text-decoration-style: dotted; }
+  .empresa-link:hover { text-decoration-style: solid; }
+
   /* Responsive */
   @media (max-width: 768px) {
     .header-logo { height: 60px; }
@@ -273,6 +285,51 @@ function getInitials(p) {
   return (p.nombre[0] + (p.apellidos ? p.apellidos[0] : '')).toUpperCase();
 }
 
+function avatarHTML(p, cls) {
+  const initials = getInitials(p);
+  if (p.foto) {
+    const imgCls = cls === 'modal-avatar' ? 'modal-avatar-img' : 'avatar-img';
+    return '<img class="' + imgCls + '" src="' + p.foto + '" alt="' + p.nombre + '" onerror="this.style.display=\'none\';this.nextElementSibling.style.display=\'flex\'"><div class="avatar ' + cls + '" style="display:none">' + initials + '</div>';
+  }
+  return '<div class="avatar ' + cls + '">' + initials + '</div>';
+}
+
+function matchEmpresaDiana(text) {
+  // Check if participant's empresaDiana text mentions any empresa from EMPRESAS list
+  if (!text) return [];
+  const t = text.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+  const matches = [];
+  EMPRESAS.forEach((e, idx) => {
+    // Clean empresa name (remove parenthetical notes)
+    let ename = e.nombre.replace(/\s*\([^)]*\)/g, '').trim();
+    let enorm = ename.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+    if (enorm.length > 3 && t.includes(enorm)) {
+      matches.push({idx, nombre: e.nombre, ename});
+    }
+  });
+  return matches;
+}
+
+function openEmpresa(idx) {
+  switchTab('empresas');
+  setTimeout(() => {
+    const cards = document.querySelectorAll('.empresa-card');
+    if (cards[idx]) cards[idx].scrollIntoView({behavior: 'smooth', block: 'center'});
+    cards[idx]?.style.setProperty('box-shadow', '0 0 0 3px var(--accent)', '');
+    setTimeout(() => cards[idx]?.style.removeProperty('box-shadow'), 2000);
+  }, 100);
+}
+
+function getInterestedParticipants(empresaNombre) {
+  let ename = empresaNombre.replace(/\s*\([^)]*\)/g, '').trim().toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+  if (ename.length <= 3) return [];
+  return DATA.filter(p => {
+    if (!p.empresaDiana) return false;
+    let t = p.empresaDiana.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+    return t.includes(ename);
+  });
+}
+
 function getFullName(p) {
   return p.nombre.trim() + ' ' + p.apellidos.trim();
 }
@@ -385,7 +442,7 @@ function renderCards() {
     return `
     <div class="card" onclick="openModal(${DATA.indexOf(p)})">
       <div class="card-header">
-        <div class="avatar">${getInitials(p)}</div>
+        ${avatarHTML(p, '')}
         <div><div class="card-name">${p.nombre} ${p.apellidos}</div><div class="card-subtitle">${p.puestoPreferencia}</div></div>
       </div>
       <div class="card-tags">
@@ -431,6 +488,21 @@ function formatContratos(str) {
   return str.split(';').filter(s => s.trim()).join(', ');
 }
 
+
+function formatEmpresaDiana(text) {
+  if (!text) return '\u2014';
+  const matches = matchEmpresaDiana(text);
+  if (!matches.length) return text;
+  let result = text;
+  // Sort by name length desc to avoid partial replacements
+  matches.sort((a, b) => b.ename.length - a.ename.length);
+  matches.forEach(m => {
+    const regex = new RegExp('(' + m.ename.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + ')', 'gi');
+    result = result.replace(regex, '<span class="empresa-link" onclick="event.stopPropagation();openEmpresa(' + m.idx + ')">$1</span>');
+  });
+  return result;
+}
+
 function navigateModal(dir) {
   const newIdx = currentModalIdx + dir;
   if (newIdx >= 0 && newIdx < DATA.length) openModal(newIdx);
@@ -454,7 +526,7 @@ function openModal(idx) {
   document.getElementById('modalContent').innerHTML = `
     <button class="modal-close" onclick="closeModal()">×</button>
     <div class="modal-header">
-      <div class="avatar modal-avatar">${getInitials(p)}</div>
+      ${avatarHTML(p, 'modal-avatar')}
       <div>
         <h2>${p.nombre} ${p.apellidos}</h2>
         <p>${p.ciudad} · ${p.fechaNacimiento} · ${p.telefono}</p>
@@ -506,7 +578,7 @@ function openModal(idx) {
         <div class="modal-field"><span class="modal-field-label">Preferencia horaria</span><span class="modal-field-value">${formatContratos(p.prefHoraria)}</span></div>
         <div class="modal-field"><span class="modal-field-label">Trabajo remoto</span><span class="modal-field-value">${p.remoto}</span></div>
         <div class="modal-field"><span class="modal-field-label">Salario bruto mensual</span><span class="modal-field-value">${p.salario}</span></div>
-        <div class="modal-field"><span class="modal-field-label">Empresa diana</span><span class="modal-field-value">${p.empresaDiana || '\u2014'}</span></div>
+        <div class="modal-field full"><span class="modal-field-label">Empresa diana</span><span class="modal-field-value">${formatEmpresaDiana(p.empresaDiana)}</span></div>
       </div>
     </div>
 
@@ -580,6 +652,16 @@ function renderEmpresas() {
         ${e.correo && e.correo !== 'NO TIENE' ? '<div class="empresa-info-row"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg><a href="mailto:' + e.correo + '">' + e.correo + '</a></div>' : ''}
         ${webLinks ? '<div class="empresa-info-row"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg><div>' + webLinks + '</div></div>' : ''}
       </div>
+      \${(() => {
+        const interested = getInterestedParticipants(e.nombre);
+        if (!interested.length) return '';
+        return '<div class="empresa-interested"><div class="empresa-interested-title">Participantes interesados</div><div class="empresa-interested-list">' +
+          interested.map(p => {
+            const idx = DATA.indexOf(p);
+            const img = p.foto ? '<img src="' + p.foto + '" onerror="this.style.display=\\'none\\'">' : '';
+            return '<span class="empresa-interested-chip" onclick="switchTab(\\'participantes\\');setTimeout(()=>openModal(' + idx + '),100)">' + img + p.nombre + ' ' + (p.apellidos ? p.apellidos.split(' ')[0] : '') + '</span>';
+          }).join('') + '</div></div>';
+      })()}
     </div>`;
   }).join('');
 }
@@ -642,7 +724,10 @@ function switchTab(tab) {
   document.querySelectorAll('.tab-section').forEach(s => s.classList.remove('active'));
   document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
   document.getElementById('tab-' + tab).classList.add('active');
-  event.target.classList.add('active');
+  // Find the correct tab button
+  document.querySelectorAll('.tab-btn').forEach(b => {
+    if (b.getAttribute('onclick')?.includes("'" + tab + "'")) b.classList.add('active');
+  });
 }
 
 /* KEYBOARD */
