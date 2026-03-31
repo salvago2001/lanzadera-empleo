@@ -719,16 +719,20 @@ function closeModal() {
 }
 
 /* ─── Helpers postulaciones ──────────────────────────────── */
+// Cache postulaciones by ID for safe onclick access (avoids JSON-in-HTML escaping issues)
+const _postCache = {};
+function _cachePost(pt) { _postCache[pt.id] = pt; return pt.id; }
+
 function buildPostHTML(posts, p) {
   const name = getFullName(p);
-  const addBtn = '<button class="add-post-btn" onclick="openPForm(\'add\',\'' + name.replace(/'/g, "\\'") + '\')">➕ Añadir postulación</button>';
+  const safeN = encodeURIComponent(name);
+  const addBtn = '<button class="add-post-btn" onclick="openPForm(\'add\',decodeURIComponent(\'' + safeN + '\'))">➕ Añadir postulación</button>';
   if (!posts.length) {
     return '<p style="color:var(--text-secondary);font-style:italic;margin-bottom:10px">Sin postulaciones registradas</p>' + addBtn;
   }
   const rows = posts.map(pt => {
-    const id = pt.id || '';
-    const safeName = name.replace(/'/g, "\\'");
-    const editBtn = '<button class="edit-post-btn" onclick="event.stopPropagation();openPForm(\'edit\',\'' + safeName + '\',' + JSON.stringify(pt).replace(/'/g, "\\'") + ')">✏️ Editar</button>';
+    const cid = _cachePost(pt);
+    const editBtn = '<button class="edit-post-btn" onclick="event.stopPropagation();openPFormById(\'' + cid + '\',decodeURIComponent(\'' + safeN + '\'))">✏️ Editar</button>';
     return '<tr>' +
       '<td>' + (pt.fecha || '—') + '</td>' +
       '<td><strong>' + (pt.empresa || '—') + '</strong></td>' +
@@ -743,6 +747,11 @@ function buildPostHTML(posts, p) {
     '<div style="overflow-x:auto"><table class="post-table"><thead><tr>' +
     '<th>Fecha</th><th>Empresa</th><th>Vacante</th><th>Lugar</th><th>Entrevista</th><th>Resultado</th><th></th>' +
     '</tr></thead><tbody>' + rows + '</tbody></table></div>' + addBtn;
+}
+
+function openPFormById(postId, participante) {
+  const pt = _postCache[postId];
+  if (pt) openPForm('edit', participante, pt);
 }
 
 /* ─── Formulario postulación ─────────────────────────────── */
