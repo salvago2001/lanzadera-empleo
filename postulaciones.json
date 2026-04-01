@@ -739,30 +739,6 @@
       "observaciones": "mes de mayo y junio"
     }
   ],
-  "Jose Luis Díaz Salvago": [
-    {
-      "id": "1700000066000",
-      "fecha": "Mon Mar 23 2026 00:00:00 GMT+0100 (hora estándar de Europa central)",
-      "empresa": "El Motorista",
-      "vacante": "Diseñador Gráfico",
-      "lugar": "Jerez",
-      "web": "Linkedin",
-      "entrevista": "No",
-      "resultado": "Contacto directo por su parte",
-      "observaciones": "Conversación previa de contacto, solicitud de CV. Ya enviado a espera de si encajo en sus necesidades."
-    },
-    {
-      "id": "1775048306577",
-      "fecha": "",
-      "empresa": "Prueba",
-      "vacante": "",
-      "lugar": "",
-      "web": "",
-      "entrevista": "No",
-      "resultado": "",
-      "observaciones": ""
-    }
-  ],
   "Pedro Ángel Armenteros Blanco": [
     {
       "id": "1700000067000",
@@ -1709,6 +1685,19 @@
       "web": "https://www.infojobs.net/cadiz/recepcionista-centro-residencial-domusvi-micaela-aramburu/of-ie370680d614fb69d691d4075dbebd9",
       "entrevista": "No",
       "resultado": "LEÍDO",
+      "observaciones": ""
+    }
+  ],
+  "Jose Luis Díaz Salvago": [
+    {
+      "id": "1775048306577",
+      "fecha": "",
+      "empresa": "Prueba",
+      "vacante": "",
+      "lugar": "",
+      "web": "",
+      "entrevista": "No",
+      "resultado": "",
       "observaciones": ""
     }
   ]
