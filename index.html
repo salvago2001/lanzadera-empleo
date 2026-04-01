@@ -834,8 +834,12 @@ async function submitPForm() {
   btn.disabled = true;
   btn.textContent = 'Guardando...';
 
+  // Generate ID once – used both locally and sent to server so they stay in sync
+  const newId = pformPostId || Date.now().toString();
+
   const payload = {
     action:        pformMode === 'add' ? 'add' : 'update',
+    id:            newId,
     participante:  pformParticipante,
     fecha:         document.getElementById('pf_fecha').value.trim(),
     empresa:       empresa,
@@ -846,10 +850,6 @@ async function submitPForm() {
     resultado:     document.getElementById('pf_resultado').value.trim(),
     observaciones: document.getElementById('pf_observaciones').value.trim(),
   };
-  if (pformMode === 'edit' && pformPostId) payload.id = pformPostId;
-
-  // Actualizar localmente de inmediato para feedback instantáneo
-  const newId = pformPostId || Date.now().toString();
   const newPost = { ...payload, id: newId };
   delete newPost.action;
 
