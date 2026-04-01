@@ -79,6 +79,20 @@
   .info-value { font-weight: 500; }
   .card-postulaciones { margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--border); display: flex; align-items: center; gap: 8px; font-size: 0.8rem; }
   .post-badge { background: var(--accent-light); color: var(--accent); padding: 2px 10px; border-radius: 12px; font-weight: 600; font-size: 0.75rem; }
+  .card-stats { margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--border); }
+  .card-stats-row { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; margin-bottom: 8px; }
+  .stat-chip { display: inline-flex; align-items: center; gap: 4px; padding: 3px 9px; border-radius: 20px; font-size: 0.73rem; font-weight: 600; white-space: nowrap; }
+  .stat-chip-total  { background: var(--accent-light); color: var(--accent); }
+  .stat-chip-interview { background: #f0fdf4; color: #16a34a; border: 1px solid #bbf7d0; }
+  .stat-chip-waiting { background: #fffbeb; color: #d97706; border: 1px solid #fde68a; }
+  .stat-chip-discard { background: #fff1f2; color: #e11d48; border: 1px solid #fecdd3; }
+  .stat-chip-ok { background: #ecfdf5; color: #059669; border: 1px solid #6ee7b7; }
+  .stats-bar { height: 5px; border-radius: 4px; overflow: hidden; display: flex; gap: 1px; background: var(--border); }
+  .stats-bar-seg { height: 100%; transition: width 0.3s; }
+  .stats-bar-seg.interview { background: #22c55e; }
+  .stats-bar-seg.waiting   { background: #f59e0b; }
+  .stats-bar-seg.discard   { background: #f43f5e; }
+  .stats-bar-seg.other     { background: #94a3b8; }
 
   /* Table */
   .table-view { overflow-x: auto; margin-bottom: 40px; }
@@ -537,9 +551,28 @@ function renderCards() {
   if (!filtered.length) { el.innerHTML = '<div class="no-results"><p>No se encontraron participantes con esos filtros.</p></div>'; return; }
   el.innerHTML = filtered.map(p => {
     const posts = getPostulaciones(p);
-    const postLine = posts.length > 0
-      ? '<div class="card-postulaciones"><span class="post-badge">' + posts.length + ' postulaciones</span></div>'
-      : '';
+    let postLine = '';
+    if (posts.length > 0) {
+      const total    = posts.length;
+      const entrev   = posts.filter(x => ['sí','si','true','1','yes'].indexOf((x.entrevista||'').toLowerCase()) >= 0).length;
+      const descart  = posts.filter(x => /descartad/i.test(x.resultado||'')).length;
+      const positivo = posts.filter(x => x.resultado && !/en espera|descartad|^$/.test(x.resultado)).length;
+      const espera   = Math.max(0, total - descart - positivo);
+      const pE = Math.round(entrev  / total * 100);
+      const pW = Math.round(espera  / total * 100);
+      const pD = Math.round(descart / total * 100);
+      const pO = Math.max(0, 100 - pE - pW - pD);
+      const chips = '<span class="stat-chip stat-chip-total">\u{1F4CB} ' + total + '</span>'
+        + (entrev   > 0 ? '<span class="stat-chip stat-chip-interview">\u{1F3AF} ' + entrev   + ' entrev.</span>' : '')
+        + (positivo > 0 ? '<span class="stat-chip stat-chip-ok">\u2705 '           + positivo + (positivo > 1 ? ' positivos' : ' positivo') + '</span>' : '')
+        + (espera   > 0 ? '<span class="stat-chip stat-chip-waiting">\u23F3 '      + espera   + ' espera</span>' : '')
+        + (descart  > 0 ? '<span class="stat-chip stat-chip-discard">\u274C '      + descart  + ' desc.</span>' : '');
+      const bars  = (pE > 0 ? '<div class="stats-bar-seg interview" style="width:' + pE + '%"></div>' : '')
+        + (pW > 0 ? '<div class="stats-bar-seg waiting" style="width:' + pW + '%"></div>' : '')
+        + (pD > 0 ? '<div class="stats-bar-seg discard" style="width:' + pD + '%"></div>' : '')
+        + (pO > 0 ? '<div class="stats-bar-seg other"   style="width:' + pO + '%"></div>' : '');
+      postLine = '<div class="card-stats"><div class="card-stats-row">' + chips + '</div><div class="stats-bar">' + bars + '</div></div>';
+    }
     return `
     <div class="card" onclick="openModal(${DATA.indexOf(p)})">
       <div class="card-header">
@@ -562,7 +595,6 @@ function renderCards() {
     </div>`;
   }).join('');
 }
-
 function renderTable() {
   const el = document.getElementById('tableView');
   if (!filtered.length) { el.innerHTML = '<div class="no-results"><p>No se encontraron participantes.</p></div>'; return; }
