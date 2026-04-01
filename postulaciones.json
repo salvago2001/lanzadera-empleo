@@ -1687,5 +1687,18 @@
       "resultado": "LEÍDO",
       "observaciones": ""
     }
+  ],
+  "Jose Luis Díaz Salvago": [
+    {
+      "id": "1775076290301",
+      "fecha": "Mon Mar 23 2026 00:00:00 GMT+0100 (hora estándar de Europa central)",
+      "empresa": "El motorista",
+      "vacante": "Diseñador gráfico",
+      "lugar": "Jerez",
+      "web": "Linkedin",
+      "entrevista": "No",
+      "resultado": "en proceso",
+      "observaciones": "Se pone en contacto conmigo directamente. Por Linkedin, le mando el CV"
+    }
   ]
 }
