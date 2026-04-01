@@ -79,14 +79,44 @@
   .info-value { font-weight: 500; }
   .card-postulaciones { margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--border); display: flex; align-items: center; gap: 8px; font-size: 0.8rem; }
   .post-badge { background: var(--accent-light); color: var(--accent); padding: 2px 10px; border-radius: 12px; font-weight: 600; font-size: 0.75rem; }
-  .sync-btn { display: inline-flex; align-items: center; gap: 6px; padding: 6px 14px; background: var(--card); border: 1px solid var(--border); border-radius: 20px; font-size: 0.8rem; font-weight: 500; color: var(--text-secondary); cursor: pointer; transition: all 0.2s; white-space: nowrap; }
-  .sync-btn:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-light); }
-  .sync-btn.syncing { color: var(--accent); border-color: var(--accent); background: var(--accent-light); pointer-events: none; }
-  .sync-btn.syncing .sync-icon { animation: spin 0.9s linear infinite; display: inline-block; }
-  .sync-ok { color: var(--green) !important; border-color: var(--green) !important; background: var(--green-bg) !important; }
+  /* ── Sync button ── */
+  .sync-btn {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 9px 20px;
+    background: linear-gradient(135deg, var(--accent) 0%, #1d4ed8 100%);
+    border: none; border-radius: 24px;
+    font-size: 0.85rem; font-weight: 700; color: #fff;
+    cursor: pointer; transition: all 0.2s;
+    white-space: nowrap;
+    box-shadow: 0 2px 8px rgba(37,99,235,0.35);
+    letter-spacing: 0.01em;
+  }
+  .sync-btn:hover { transform: translateY(-1px); box-shadow: 0 4px 14px rgba(37,99,235,0.45); filter: brightness(1.08); }
+  .sync-btn:active { transform: translateY(0); }
+  .sync-btn.syncing { background: linear-gradient(135deg, #6b7280 0%, #4b5563 100%); box-shadow: none; pointer-events: none; }
+  .sync-btn.syncing .sync-icon { animation: spin 0.75s linear infinite; display: inline-block; }
+  .sync-btn.sync-ok { background: linear-gradient(135deg, #059669 0%, #047857 100%); box-shadow: 0 2px 8px rgba(5,150,105,0.35); }
   @keyframes spin { to { transform: rotate(360deg); } }
-  .sync-banner { position: fixed; bottom: 72px; left: 50%; transform: translateX(-50%); background: #1e293b; color: #f1f5f9; padding: 8px 20px; border-radius: 24px; font-size: 0.82rem; font-weight: 500; display: flex; align-items: center; gap: 8px; z-index: 9999; opacity: 0; pointer-events: none; transition: opacity 0.3s; box-shadow: 0 4px 12px rgba(0,0,0,0.25); }
-  .sync-banner.show { opacity: 1; }
+
+  /* ── Sync notification banner ── */
+  .sync-banner {
+    position: fixed; bottom: 28px; left: 50%; transform: translateX(-50%) translateY(20px);
+    min-width: 280px; max-width: 420px;
+    background: #0f172a; color: #f8fafc;
+    padding: 14px 24px; border-radius: 14px;
+    font-size: 0.9rem; font-weight: 600;
+    display: flex; align-items: center; gap: 10px;
+    z-index: 9999; opacity: 0; pointer-events: none;
+    transition: opacity 0.3s, transform 0.3s;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.3), 0 0 0 1px rgba(255,255,255,0.06);
+  }
+  .sync-banner.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+  .sync-banner.banner-ok   { background: #064e3b; border-left: 4px solid #10b981; }
+  .sync-banner.banner-warn { background: #7c2d12; border-left: 4px solid #f97316; }
+  .sync-banner .banner-dot { width: 9px; height: 9px; border-radius: 50%; background: #38bdf8; flex-shrink: 0; animation: pulse-dot 1.2s ease-in-out infinite; }
+  .sync-banner.banner-ok   .banner-dot { background: #10b981; animation: none; }
+  .sync-banner.banner-warn .banner-dot { background: #f97316; animation: none; }
+  @keyframes pulse-dot { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.5;transform:scale(0.7)} }
   .card-stats { margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--border); }
   .card-stats-row { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; margin-bottom: 8px; }
   .stat-chip { display: inline-flex; align-items: center; gap: 4px; padding: 3px 9px; border-radius: 20px; font-size: 0.73rem; font-weight: 600; white-space: nowrap; }
@@ -240,7 +270,7 @@
     <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;">
       <div class="stats" id="stats"></div>
       <button class="sync-btn" id="syncBtn" onclick="reloadData()" title="Recargar datos del servidor">
-        <span class="sync-icon">↻</span> Actualizar
+        <span class="sync-icon" style="font-size:1rem;">↻</span> Actualizar datos
       </button>
     </div>
   </div>
@@ -837,14 +867,14 @@ async function deletePost(postId, participante) {
   if (APPS_SCRIPT_URL) {
     try {
       const payload = { action: 'delete', id: postId, participante };
-      showSyncBanner('⏳ Sincronizando eliminación…');
+      showSyncBanner('Sincronizando eliminación…', 0);
     await fetch(APPS_SCRIPT_URL, {
         method: 'POST',
         mode: 'no-cors',
         body: new URLSearchParams({ payload: JSON.stringify(payload) })
       });
-    setTimeout(() => { showSyncBanner('✅ Eliminación sincronizada', 2500); reloadData(); }, 20000);
-    } catch(err) { showSyncBanner('⚠️ Error de sincronización', 3000); console.warn('Sync error:', err); }
+    setTimeout(() => { showSyncBanner('Eliminación sincronizada', 3000, 'ok'); reloadData(); }, 20000);
+    } catch(err) { showSyncBanner('Error de sincronización', 3500, 'warn'); console.warn('Sync error:', err); }
   }
 }
 
@@ -925,7 +955,7 @@ async function submitPForm() {
 
   // Enviar al servidor en background
   if (APPS_SCRIPT_URL) {
-    showSyncBanner('⏳ Sincronizando con el servidor…');
+    showSyncBanner('Sincronizando con el servidor…', 0);
     try {
       await fetch(APPS_SCRIPT_URL, {
         method: 'POST',
@@ -934,11 +964,11 @@ async function submitPForm() {
       });
       // Give Apps Script ~20s to finish, then auto-reload data
       setTimeout(() => {
-        showSyncBanner('✅ Sincronización completada', 2500);
+        showSyncBanner('Sincronización completada', 3000, 'ok');
         reloadData();
       }, 20000);
     } catch(e) {
-      showSyncBanner('⚠️ Error de sincronización', 3000);
+      showSyncBanner('Error de sincronización', 3500, 'warn');
       console.warn('Sync error:', e);
     }
   } else {
@@ -956,17 +986,21 @@ function showToast(msg) {
   setTimeout(() => t.classList.remove('show'), 3000);
 }
 
-function showSyncBanner(msg, duration) {
+function showSyncBanner(msg, duration, type) {
   const b = document.getElementById('syncBanner');
-  b.textContent = msg;
+  b.classList.remove('show', 'banner-ok', 'banner-warn');
+  // Build inner HTML with dot indicator
+  b.innerHTML = '<span class="banner-dot"></span>' + msg;
+  if (type === 'ok')   b.classList.add('banner-ok');
+  if (type === 'warn') b.classList.add('banner-warn');
   b.classList.add('show');
-  if (duration) setTimeout(() => b.classList.remove('show'), duration);
+  if (duration) setTimeout(() => b.classList.remove('show', 'banner-ok', 'banner-warn'), duration);
 }
 
 async function reloadData() {
   const btn = document.getElementById('syncBtn');
   btn.classList.add('syncing');
-  btn.innerHTML = '<span class="sync-icon">↻</span> Actualizando…';
+  btn.innerHTML = '<span class="sync-icon" style="font-size:1rem;">↻</span> Actualizando…';
   try {
     const [dResp, pResp] = await Promise.all([
       fetch('data.json?v=' + Date.now()),
@@ -982,15 +1016,15 @@ async function reloadData() {
     renderStats();
     btn.classList.remove('syncing');
     btn.classList.add('sync-ok');
-    btn.innerHTML = '<span>✓</span> Actualizado';
+    btn.innerHTML = '<span>✓</span> ¡Actualizado!';
     setTimeout(() => {
       btn.classList.remove('sync-ok');
-      btn.innerHTML = '<span class="sync-icon">↻</span> Actualizar';
+      btn.innerHTML = '<span class="sync-icon" style="font-size:1rem;">↻</span> Actualizar datos';
     }, 2500);
   } catch(err) {
     btn.classList.remove('syncing');
-    btn.innerHTML = '<span class="sync-icon">↻</span> Actualizar';
-    showToast('⚠️ Error al recargar. Inténtalo de nuevo.');
+    btn.innerHTML = '<span class="sync-icon" style="font-size:1rem;">↻</span> Actualizar datos';
+    showSyncBanner('Error al recargar. Inténtalo de nuevo.', 3500, 'warn');
   }
 }
 
