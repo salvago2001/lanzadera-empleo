@@ -2,7 +2,7 @@
   "Pablo Mata Medina": [
     {
       "id": "1700000000000",
-      "fecha": "Thu Feb 05 2026 00:00:00 GMT+0100 (hora estándar de Europa central)",
+      "fecha": "05/02/2026",
       "empresa": "PrimaPrix",
       "vacante": "Cajero/reponedor",
       "lugar": "Jerez de la Frontera",
@@ -13,7 +13,7 @@
     },
     {
       "id": "1700000001000",
-      "fecha": "Sun Feb 15 2026 00:00:00 GMT+0100 (hora estándar de Europa central)",
+      "fecha": "15/02/2026",
       "empresa": "Mercadona",
       "vacante": "Cajero/reponedor",
       "lugar": "Ibiza",
@@ -24,7 +24,7 @@
     },
     {
       "id": "1700000002000",
-      "fecha": "Fri Feb 20 2026 00:00:00 GMT+0100 (hora estándar de Europa central)",
+      "fecha": "20/02/2026",
       "empresa": "Mercadona",
       "vacante": "Cajero/reponedor",
       "lugar": "Arcos de la Frontera",
@@ -35,7 +35,7 @@
     },
     {
       "id": "1700000003000",
-      "fecha": "Wed Feb 25 2026 00:00:00 GMT+0100 (hora estándar de Europa central)",
+      "fecha": "25/02/2026",
       "empresa": "Unidad De Cultura Científica",
       "vacante": "Periodista",
       "lugar": "Sevilla",
@@ -46,7 +46,7 @@
     },
     {
       "id": "1700000004000",
-      "fecha": "Thu Feb 26 2026 00:00:00 GMT+0100 (hora estándar de Europa central)",
+      "fecha": "26/02/2026",
       "empresa": "Genteel Home Gestora SL",
       "vacante": "Administrativo",
       "lugar": "Sevilla",
@@ -57,7 +57,7 @@
     },
     {
       "id": "1700000005000",
-      "fecha": "Thu Mar 05 2026 00:00:00 GMT+0100 (hora estándar de Europa central)",
+      "fecha": "05/03/2026",
       "empresa": "GMD Televisión",
       "vacante": "Periodista",
       "lugar": "Comarca de Écija",
@@ -68,7 +68,7 @@
     },
     {
       "id": "1700000006000",
-      "fecha": "Sat Mar 07 2026 00:00:00 GMT+0100 (hora estándar de Europa central)",
+      "fecha": "07/03/2026",
       "empresa": "Supermercados DIA",
       "vacante": "Cajero/reponedor",
       "lugar": "Jerez, El Puerto, Bormujos y Sevilla",
@@ -79,7 +79,7 @@
     },
     {
       "id": "1700000007000",
-      "fecha": "Mon Mar 16 2026 00:00:00 GMT+0100 (hora estándar de Europa central)",
+      "fecha": "16/03/2026",
       "empresa": "Talleres de suministros y automoción",
       "vacante": "Administrativo",
       "lugar": "Jerez de la Frontera",
@@ -90,7 +90,7 @@
     },
     {
       "id": "1700000008000",
-      "fecha": "Mon Mar 16 2026 00:00:00 GMT+0100 (hora estándar de Europa central)",
+      "fecha": "16/03/2026",
       "empresa": "El Motorista",
       "vacante": "Diseñador gráfico",
       "lugar": "Jerez de la Frontera",
@@ -101,7 +101,7 @@
     },
     {
       "id": "1700000009000",
-      "fecha": "Fri Mar 27 2026 00:00:00 GMT+0100 (hora estándar de Europa central)",
+      "fecha": "27/03/2026",
       "empresa": "Basic Fit",
       "vacante": "Recepcionista",
       "lugar": "El Puerto de Santa María",
@@ -114,7 +114,7 @@
   "Manuel Quintero Fernández": [
     {
       "id": "1700000010000",
-      "fecha": "Tue Mar 03 2026 00:00:00 GMT+0100 (hora estándar de Europa central)",
+      "fecha": "03/03/2026",
       "empresa": "Baluarte S.L.",
       "vacante": "Auxiliar Administrativo Contable",
       "lugar": "Cádiz, Cádiz",
@@ -125,7 +125,7 @@
     },
     {
       "id": "1700000011000",
-      "fecha": "Tue Mar 10 2026 00:00:00 GMT+0100 (hora estándar de Europa central)",
+      "fecha": "10/03/2026",
       "empresa": "Garantía Profesional Servicio Público",
       "vacante": "Oficiales/as 2ª Administrativos/as - Apoyo administrativo a gestión de ayudas",
       "lugar": "Cádiz, Cádiz",
@@ -136,7 +136,7 @@
     },
     {
       "id": "1700000012000",
-      "fecha": "Wed Mar 11 2026 00:00:00 GMT+0100 (hora estándar de Europa central)",
+      "fecha": "11/03/2026",
       "empresa": "Bureau Veritas 1828",
       "vacante": "Administrativo- Sector Naval",
       "lugar": "Cádiz, Cádiz",
@@ -147,7 +147,7 @@
     },
     {
       "id": "1700000013000",
-      "fecha": "Mon Mar 16 2026 00:00:00 GMT+0100 (hora estándar de Europa central)",
+      "fecha": "16/03/2026",
       "empresa": "Franjuba Pan,S.L.",
       "vacante": "Auxiliar Administrativo de operaciones",
       "lugar": "Jerez de la Frontera, Cádiz",
@@ -158,7 +158,7 @@
     },
     {
       "id": "1700000014000",
-      "fecha": "Tue Mar 17 2026 00:00:00 GMT+0100 (hora estándar de Europa central)",
+      "fecha": "17/03/2026",
       "empresa": "Clece",
       "vacante": "Gestor de Servicios",
       "lugar": "Cádiz, Provincia",
@@ -169,7 +169,7 @@
     },
     {
       "id": "1700000015000",
-      "fecha": "Wed Mar 25 2026 00:00:00 GMT+0100 (hora estándar de Europa central)",
+      "fecha": "25/03/2026",
       "empresa": "Elecam",
       "vacante": "Administrativo de Recursos Humanos- Experto a3 innuva Nóminas",
       "lugar": "Cádiz, Cádiz",
@@ -182,7 +182,7 @@
   "Juana.Milagrosa Grosso Garrido": [
     {
       "id": "1700000016000",
-      "fecha": "Thu Feb 19 2026 00:00:00 GMT+0100 (hora estándar de Europa central)",
+      "fecha": "19/02/2026",
       "empresa": "Vanessa zapatos",
       "vacante": "1",
       "lugar": "cadiz",
@@ -193,7 +193,7 @@
     },
     {
       "id": "1700000017000",
-      "fecha": "Tue Mar 03 2026 00:00:00 GMT+0100 (hora estándar de Europa central)",
+      "fecha": "03/03/2026",
       "empresa": "Gran hotel ciudad del Sur",
       "vacante": "ayudante de Mantenimiento y Ayudante de cocina.",
       "lugar": "Pto. Real",
@@ -204,7 +204,7 @@
     },
     {
       "id": "1700000018000",
-      "fecha": "Tue Mar 03 2026 00:00:00 GMT+0100 (hora estándar de Europa central)",
+      "fecha": "03/03/2026",
       "empresa": "OVS fashion",
       "vacante": "dependienta el cçcorte Ingles Bahia de Cadiz",
       "lugar": "Cadiz",
@@ -215,7 +215,7 @@
     },
     {
       "id": "1700000019000",
-      "fecha": "Wed Mar 04 2026 00:00:00 GMT+0100 (hora estándar de Europa central)",
+      "fecha": "04/03/2026",
       "empresa": "Jose Luis Joyeria",
       "vacante": "dependienta",
       "lugar": "san fernando",
@@ -226,7 +226,7 @@
     },
     {
       "id": "1700000020000",
-      "fecha": "Wed Mar 04 2026 00:00:00 GMT+0100 (hora estándar de Europa central)",
+      "fecha": "04/03/2026",
       "empresa": "Segundo store Manager",
       "vacante": "Atencion al cliente 30 h",
       "lugar": "cadiz",
@@ -237,7 +237,7 @@
     },
     {
       "id": "1700000021000",
-      "fecha": "Sun Mar 08 2026 00:00:00 GMT+0100 (hora estándar de Europa central)",
+      "fecha": "08/03/2026",
       "empresa": "Dulceria17",
       "vacante": "dependienta tienda de trajes gitanas",
       "lugar": "chiclana",
@@ -248,7 +248,7 @@
     },
     {
       "id": "1700000022000",
-      "fecha": "Tue Mar 10 2026 00:00:00 GMT+0100 (hora estándar de Europa central)",
+      "fecha": "10/03/2026",
       "empresa": "Eurodiez",
       "vacante": "dependienta",
       "lugar": "pto santa Maria",
@@ -259,7 +259,7 @@
     },
     {
       "id": "1700000023000",
-      "fecha": "Tue Mar 17 2026 00:00:00 GMT+0100 (hora estándar de Europa central)",
+      "fecha": "17/03/2026",
       "empresa": "Externa",
       "vacante": "Dependienta",
       "lugar": "cadiz",
@@ -281,7 +281,7 @@
     },
     {
       "id": "1700000025000",
-      "fecha": "Thu Mar 19 2026 00:00:00 GMT+0100 (hora estándar de Europa central)",
+      "fecha": "19/03/2026",
       "empresa": "recepcionista",
       "vacante": "atencion al cliente",
       "lugar": "cadiz",
@@ -292,7 +292,7 @@
     },
     {
       "id": "1700000026000",
-      "fecha": "Thu Mar 19 2026 00:00:00 GMT+0100 (hora estándar de Europa central)",
+      "fecha": "19/03/2026",
       "empresa": "Cruz Roja",
       "vacante": "atencion al cliente",
       "lugar": "cadiz",
@@ -316,7 +316,7 @@
   "Macarena Rueda Acedo": [
     {
       "id": "1700000028000",
-      "fecha": "Wed Dec 10 2025 00:00:00 GMT+0100 (hora estándar de Europa central)",
+      "fecha": "10/12/2025",
       "empresa": "Konecta",
       "vacante": "30",
       "lugar": "Málaga",
@@ -327,7 +327,7 @@
     },
     {
       "id": "1700000029000",
-      "fecha": "Wed Jan 14 2026 00:00:00 GMT+0100 (hora estándar de Europa central)",
+      "fecha": "14/01/2026",
       "empresa": "Clínica Dental",
       "vacante": "",
       "lugar": "Chiclana",
@@ -338,7 +338,7 @@
     },
     {
       "id": "1700000030000",
-      "fecha": "Wed Jan 14 2026 00:00:00 GMT+0100 (hora estándar de Europa central)",
+      "fecha": "14/01/2026",
       "empresa": "ONCE(Administrativo comercial)",
       "vacante": "",
       "lugar": "Cádiz",
@@ -349,7 +349,7 @@
     },
     {
       "id": "1700000031000",
-      "fecha": "Wed Jan 14 2026 00:00:00 GMT+0100 (hora estándar de Europa central)",
+      "fecha": "14/01/2026",
       "empresa": "Rentia Events( gestor de reservas turísticas y eventos)",
       "vacante": "",
       "lugar": "Sevilla",
@@ -360,7 +360,7 @@
     },
     {
       "id": "1700000032000",
-      "fecha": "Wed Jan 28 2026 00:00:00 GMT+0100 (hora estándar de Europa central)",
+      "fecha": "28/01/2026",
       "empresa": "Booksy(consultor de retención y customer success)",
       "vacante": "",
       "lugar": "",
@@ -371,7 +371,7 @@
     },
     {
       "id": "1700000033000",
-      "fecha": "Fri Feb 13 2026 00:00:00 GMT+0100 (hora estándar de Europa central)",
+      "fecha": "13/02/2026",
       "empresa": "Vitaldent(recepcionista clínica dental)",
       "vacante": "",
       "lugar": "San Fernando",
@@ -382,7 +382,7 @@
     },
     {
       "id": "1700000034000",
-      "fecha": "Tue Mar 03 2026 00:00:00 GMT+0100 (hora estándar de Europa central)",
+      "fecha": "03/03/2026",
       "empresa": "Ilunion Emergencias sl",
       "vacante": "",
       "lugar": "Puerto Real",
@@ -393,7 +393,7 @@
     },
     {
       "id": "1700000035000",
-      "fecha": "Wed Mar 04 2026 00:00:00 GMT+0100 (hora estándar de Europa central)",
+      "fecha": "04/03/2026",
       "empresa": "Tragsa",
       "vacante": "",
       "lugar": "Cádiz(entre otros)",
@@ -406,7 +406,7 @@
   "Imanol Beristain Lora": [
     {
       "id": "1700000036000",
-      "fecha": "Mon Jan 12 2026 00:00:00 GMT+0100 (hora estándar de Europa central)",
+      "fecha": "12/01/2026",
       "empresa": "Engrupo",
       "vacante": "1",
       "lugar": "Sevilla",
@@ -417,7 +417,7 @@
     },
     {
       "id": "1700000037000",
-      "fecha": "Fri Feb 06 2026 00:00:00 GMT+0100 (hora estándar de Europa central)",
+      "fecha": "06/02/2026",
       "empresa": "DLM",
       "vacante": "1",
       "lugar": "Sevilla",
@@ -428,7 +428,7 @@
     },
     {
       "id": "1700000038000",
-      "fecha": "Fri Mar 20 2026 00:00:00 GMT+0100 (hora estándar de Europa central)",
+      "fecha": "20/03/2026",
       "empresa": "Techmakers",
       "vacante": "1",
       "lugar": "Castilleja de la Cuesta",
@@ -441,7 +441,7 @@
   "Silvia Barrios Acosta": [
     {
       "id": "1700000039000",
-      "fecha": "Thu Mar 26 2026 00:00:00 GMT+0100 (hora estándar de Europa central)",
+      "fecha": "26/03/2026",
       "empresa": "Almagro Formación SL.",
       "vacante": "Administrativo",
       "lugar": "",
@@ -452,7 +452,7 @@
     },
     {
       "id": "1700000040000",
-      "fecha": "Tue Mar 17 2026 00:00:00 GMT+0100 (hora estándar de Europa central)",
+      "fecha": "17/03/2026",
       "empresa": "QuironPrevencion",
       "vacante": "Administrativo",
       "lugar": "",
@@ -463,7 +463,7 @@
     },
     {
       "id": "1700000041000",
-      "fecha": "Mon Mar 16 2026 00:00:00 GMT+0100 (hora estándar de Europa central)",
+      "fecha": "16/03/2026",
       "empresa": "Recepcionista Centro Residencial DomusVi Micaela Aramburu",
       "vacante": "Administrativo/Recepcionista",
       "lugar": "",
@@ -474,7 +474,7 @@
     },
     {
       "id": "1700000042000",
-      "fecha": "Sun Mar 15 2026 00:00:00 GMT+0100 (hora estándar de Europa central)",
+      "fecha": "15/03/2026",
       "empresa": "Hospital Viamed",
       "vacante": "Administrativo",
       "lugar": "",
@@ -485,7 +485,7 @@
     },
     {
       "id": "1700000043000",
-      "fecha": "Sun Mar 15 2026 00:00:00 GMT+0100 (hora estándar de Europa central)",
+      "fecha": "15/03/2026",
       "empresa": "Ambulancias Barbate",
       "vacante": "Administrativo/Atencion de Llamadas de Emergencias",
       "lugar": "",
@@ -496,7 +496,7 @@
     },
     {
       "id": "1700000044000",
-      "fecha": "Sun Mar 15 2026 00:00:00 GMT+0100 (hora estándar de Europa central)",
+      "fecha": "15/03/2026",
       "empresa": "Dekra Empleo SL",
       "vacante": "Administrativo",
       "lugar": "",
@@ -507,7 +507,7 @@
     },
     {
       "id": "1700000045000",
-      "fecha": "Sun Mar 08 2026 00:00:00 GMT+0100 (hora estándar de Europa central)",
+      "fecha": "08/03/2026",
       "empresa": "Grupo Eulen",
       "vacante": "Administrativo/Atencion de Llamadas de Emergencias",
       "lugar": "",
@@ -518,7 +518,7 @@
     },
     {
       "id": "1700000046000",
-      "fecha": "Thu Mar 05 2026 00:00:00 GMT+0100 (hora estándar de Europa central)",
+      "fecha": "05/03/2026",
       "empresa": "Tragsatec",
       "vacante": "Administrativo",
       "lugar": "",
@@ -529,7 +529,7 @@
     },
     {
       "id": "1700000047000",
-      "fecha": "Thu Mar 05 2026 00:00:00 GMT+0100 (hora estándar de Europa central)",
+      "fecha": "05/03/2026",
       "empresa": "Laooal Dental",
       "vacante": "Recepcionista",
       "lugar": "",
@@ -540,7 +540,7 @@
     },
     {
       "id": "1700000048000",
-      "fecha": "Wed Mar 04 2026 00:00:00 GMT+0100 (hora estándar de Europa central)",
+      "fecha": "04/03/2026",
       "empresa": "0-61",
       "vacante": "Operador/a Atención de Llamadas de Emergencias",
       "lugar": "",
@@ -551,7 +551,7 @@
     },
     {
       "id": "1700000049000",
-      "fecha": "Mon Mar 02 2026 00:00:00 GMT+0100 (hora estándar de Europa central)",
+      "fecha": "02/03/2026",
       "empresa": "BALUARTE ASESORES, S.L.",
       "vacante": "Administrativo",
       "lugar": "",
@@ -562,7 +562,7 @@
     },
     {
       "id": "1700000050000",
-      "fecha": "Wed Feb 11 2026 00:00:00 GMT+0100 (hora estándar de Europa central)",
+      "fecha": "11/02/2026",
       "empresa": "CONSORCIO DE LA ZONA FRANCA DE CADIZ",
       "vacante": "Administrativo",
       "lugar": "",
@@ -573,7 +573,7 @@
     },
     {
       "id": "1700000051000",
-      "fecha": "Tue Feb 10 2026 00:00:00 GMT+0100 (hora estándar de Europa central)",
+      "fecha": "10/02/2026",
       "empresa": "MDS HIGH QUALITY PREVENTION SL",
       "vacante": "Administrativo",
       "lugar": "",
@@ -584,7 +584,7 @@
     },
     {
       "id": "1700000052000",
-      "fecha": "Sun Feb 01 2026 00:00:00 GMT+0100 (hora estándar de Europa central)",
+      "fecha": "01/02/2026",
       "empresa": "EMPRESA REPARACIONES JEREZANAS, S.L",
       "vacante": "Administrativo",
       "lugar": "",
@@ -595,7 +595,7 @@
     },
     {
       "id": "1700000053000",
-      "fecha": "Fri Jan 16 2026 00:00:00 GMT+0100 (hora estándar de Europa central)",
+      "fecha": "16/01/2026",
       "empresa": "navarro montes agro sl",
       "vacante": "Administrativo/Atencion al Cliente",
       "lugar": "",
@@ -606,7 +606,7 @@
     },
     {
       "id": "1700000054000",
-      "fecha": "Sat Jan 10 2026 00:00:00 GMT+0100 (hora estándar de Europa central)",
+      "fecha": "10/01/2026",
       "empresa": "ONCE",
       "vacante": "Administrativo",
       "lugar": "",
@@ -617,7 +617,7 @@
     },
     {
       "id": "1700000055000",
-      "fecha": "Sat Jan 10 2026 00:00:00 GMT+0100 (hora estándar de Europa central)",
+      "fecha": "10/01/2026",
       "empresa": "Clinica Dental Chiclana",
       "vacante": "Recepcionista",
       "lugar": "",
@@ -628,7 +628,7 @@
     },
     {
       "id": "1700000056000",
-      "fecha": "Fri Jan 09 2026 00:00:00 GMT+0100 (hora estándar de Europa central)",
+      "fecha": "09/01/2026",
       "empresa": "Tecnocasa",
       "vacante": "Administrativo",
       "lugar": "",
@@ -639,7 +639,7 @@
     },
     {
       "id": "1700000057000",
-      "fecha": "Sat Jan 03 2026 00:00:00 GMT+0100 (hora estándar de Europa central)",
+      "fecha": "03/01/2026",
       "empresa": "ONCE",
       "vacante": "Administrativo",
       "lugar": "",
@@ -650,7 +650,7 @@
     },
     {
       "id": "1700000058000",
-      "fecha": "Fri Jan 02 2026 00:00:00 GMT+0100 (hora estándar de Europa central)",
+      "fecha": "02/01/2026",
       "empresa": "Promociones Paniagua s.l.",
       "vacante": "Administrativo",
       "lugar": "",
@@ -674,7 +674,7 @@
     },
     {
       "id": "1700000060000",
-      "fecha": "Fri Feb 20 2026 00:00:00 GMT+0100 (hora estándar de Europa central)",
+      "fecha": "20/02/2026",
       "empresa": "Curso Fundación Albarracín",
       "vacante": "Restauradora",
       "lugar": "Teruel",
@@ -707,7 +707,7 @@
     },
     {
       "id": "1700000063000",
-      "fecha": "Sun Mar 08 2026 00:00:00 GMT+0100 (hora estándar de Europa central)",
+      "fecha": "08/03/2026",
       "empresa": "Taller Jesus Vidal",
       "vacante": "Restauradora",
       "lugar": "San Fernando",
@@ -718,7 +718,7 @@
     },
     {
       "id": "1700000064000",
-      "fecha": "Wed Mar 18 2026 00:00:00 GMT+0100 (hora estándar de Europa central)",
+      "fecha": "18/03/2026",
       "empresa": "Museo Naval de San Fernando",
       "vacante": "Restauradora",
       "lugar": "Cádiz",
@@ -729,7 +729,7 @@
     },
     {
       "id": "1700000065000",
-      "fecha": "Wed Mar 11 2026 00:00:00 GMT+0100 (hora estándar de Europa central)",
+      "fecha": "11/03/2026",
       "empresa": "Escuela de Guerra Naval",
       "vacante": "Gestión cultural, archivo y conservación",
       "lugar": "Madrid",
@@ -742,7 +742,7 @@
   "Pedro Ángel Armenteros Blanco": [
     {
       "id": "1700000067000",
-      "fecha": "Wed Mar 11 2026 00:00:00 GMT+0100 (hora estándar de Europa central)",
+      "fecha": "11/03/2026",
       "empresa": "CNI",
       "vacante": "OFICIAL SUPERIOR DE ASESORÍA JURÍDICA",
       "lugar": "¿?",
@@ -753,7 +753,7 @@
     },
     {
       "id": "1700000068000",
-      "fecha": "Wed Mar 11 2026 00:00:00 GMT+0100 (hora estándar de Europa central)",
+      "fecha": "11/03/2026",
       "empresa": "ADECCO - TELEPERFORMANCE",
       "vacante": "Teleoperador/a telefonia\nATENCIÓN AL CLIENTE",
       "lugar": "Jerez de la Frontera - Cádiz",
@@ -764,7 +764,7 @@
     },
     {
       "id": "1700000069000",
-      "fecha": "Wed Mar 11 2026 00:00:00 GMT+0100 (hora estándar de Europa central)",
+      "fecha": "11/03/2026",
       "empresa": "ADECCO",
       "vacante": "RECEPCIONISTA NOCTURNO",
       "lugar": "Cádiz",
@@ -775,7 +775,7 @@
     },
     {
       "id": "1700000070000",
-      "fecha": "Thu Mar 12 2026 00:00:00 GMT+0100 (hora estándar de Europa central)",
+      "fecha": "12/03/2026",
       "empresa": "EULEN Administración y Atención a Clientes",
       "vacante": "Gestores/as Telefónicos Emergencias",
       "lugar": "Cádiz",
@@ -786,7 +786,7 @@
     },
     {
       "id": "1700000071000",
-      "fecha": "Thu Mar 12 2026 00:00:00 GMT+0100 (hora estándar de Europa central)",
+      "fecha": "12/03/2026",
       "empresa": "NTT DATA ofertas de empleo profesionales",
       "vacante": "Perfiles Jurídicos Recién Titulados",
       "lugar": "Alicante",
@@ -797,7 +797,7 @@
     },
     {
       "id": "1700000072000",
-      "fecha": "Thu Mar 12 2026 00:00:00 GMT+0100 (hora estándar de Europa central)",
+      "fecha": "12/03/2026",
       "empresa": "La Saleta Grupo Colisee",
       "vacante": "Legal and Compliance Advisor",
       "lugar": "Valencia",
@@ -808,7 +808,7 @@
     },
     {
       "id": "1700000073000",
-      "fecha": "Thu Mar 12 2026 00:00:00 GMT+0100 (hora estándar de Europa central)",
+      "fecha": "12/03/2026",
       "empresa": "SEIDOR",
       "vacante": "Soporte Service Desk N2",
       "lugar": "San Fernando - Cádiz",
@@ -819,7 +819,7 @@
     },
     {
       "id": "1700000074000",
-      "fecha": "Thu Mar 12 2026 00:00:00 GMT+0100 (hora estándar de Europa central)",
+      "fecha": "12/03/2026",
       "empresa": "Tratewo SL",
       "vacante": "Agente de Reservas y Atención al Cliente",
       "lugar": "Chiclana de la Frontera - Cádiz",
@@ -830,7 +830,7 @@
     },
     {
       "id": "1700000075000",
-      "fecha": "Thu Mar 12 2026 00:00:00 GMT+0100 (hora estándar de Europa central)",
+      "fecha": "12/03/2026",
       "empresa": "Tiger South Spain",
       "vacante": "DEPENDIENTE/A - SUSTITUCIÓN 30H- CÁDIZ",
       "lugar": "Cádiz",
@@ -841,7 +841,7 @@
     },
     {
       "id": "1700000076000",
-      "fecha": "Mon Mar 16 2026 00:00:00 GMT+0100 (hora estándar de Europa central)",
+      "fecha": "16/03/2026",
       "empresa": "Accem",
       "vacante": "Educador Social Centro de Menores",
       "lugar": "Jerez de la Frontera - Cádiz",
@@ -852,7 +852,7 @@
     },
     {
       "id": "1700000077000",
-      "fecha": "Tue Mar 17 2026 00:00:00 GMT+0100 (hora estándar de Europa central)",
+      "fecha": "17/03/2026",
       "empresa": "Operador/a Atención de Llamadas de Emergencias CON/SIN DISCAPACIDAD (061 Cádiz)",
       "vacante": "ILUNION EMERGENCIAS, S.A.",
       "lugar": "Puerto Real",
@@ -863,7 +863,7 @@
     },
     {
       "id": "1700000078000",
-      "fecha": "Tue Mar 17 2026 00:00:00 GMT+0100 (hora estándar de Europa central)",
+      "fecha": "17/03/2026",
       "empresa": "Gestor/a de Servicios (Provincia de Cádiz)",
       "vacante": "CLECE",
       "lugar": "Provincia de Cádiz",
@@ -887,7 +887,7 @@
   "María Mirta Cortina Ramírez": [
     {
       "id": "1700000080000",
-      "fecha": "Thu Feb 26 2026 00:00:00 GMT+0100 (hora estándar de Europa central)",
+      "fecha": "26/02/2026",
       "empresa": "ALDI",
       "vacante": "Colaborador de tienda",
       "lugar": "Cádiz",
@@ -898,7 +898,7 @@
     },
     {
       "id": "1700000081000",
-      "fecha": "Sun Mar 01 2026 00:00:00 GMT+0100 (hora estándar de Europa central)",
+      "fecha": "01/03/2026",
       "empresa": "Carrefour",
       "vacante": "Auxiliar de caja/Reposición",
       "lugar": "Chiclana de la Frontera",
@@ -909,7 +909,7 @@
     },
     {
       "id": "1700000082000",
-      "fecha": "Mon Mar 02 2026 00:00:00 GMT+0100 (hora estándar de Europa central)",
+      "fecha": "02/03/2026",
       "empresa": "Mercadona",
       "vacante": "https://mercadona.avature.net/es_ES/Careers/Success?jobId=307448",
       "lugar": "San Fernando",
@@ -920,7 +920,7 @@
     },
     {
       "id": "1700000083000",
-      "fecha": "Tue Mar 03 2026 00:00:00 GMT+0100 (hora estándar de Europa central)",
+      "fecha": "03/03/2026",
       "empresa": "Grupo Más",
       "vacante": "https://grupomas.teamtailor.com/jobs/5894749-ayudante-pescaderia-40-h-sem-campana-de-verano-para-chiclana/applications/28804863-a617-48df-a6b4-4a041eb3b24f/thanks/26cef13187ce41cdd000ee8c168b17734b27f724774b05059d3692c91d45a769?tmp_ctoken=274f0980faf730d636cd394b3708c05ab16790b1d6e16d0824cf9901f0a767d8",
       "lugar": "Chiclana de la Frontera",
@@ -931,7 +931,7 @@
     },
     {
       "id": "1700000084000",
-      "fecha": "Wed Mar 04 2026 00:00:00 GMT+0100 (hora estándar de Europa central)",
+      "fecha": "04/03/2026",
       "empresa": "Clece",
       "vacante": "",
       "lugar": "San Fernando , Càdiz",
@@ -942,7 +942,7 @@
     },
     {
       "id": "1700000085000",
-      "fecha": "Sun Mar 15 2026 00:00:00 GMT+0100 (hora estándar de Europa central)",
+      "fecha": "15/03/2026",
       "empresa": "GM CASH",
       "vacante": "https://es.indeed.com/viewjob?jk=78761b3574d38fa3&q=reponedor&l=Puerto+Real%2C+C%C3%A1diz+provincia&tk=1jjn8bc1ikgtf800&from=ja&alid=6669b3059cefca2f6456ae90&g1tAS=true&xpse=SoDo67I3m7MMX4AfTD0LbzkdCdPP&xfps=742896e2-d133-436f-a3bf-052d87cd4985&utm_campaign=job_alerts&utm_medium=email&utm_source=jobseeker_emails&rgtk=1jjn8bc1ikgtf800&xkcb=SoD667M3m3YiSFQJmx0JbzkdCdPP",
       "lugar": "",
@@ -955,7 +955,7 @@
   "Desirée Infestas Baños": [
     {
       "id": "1700000086000",
-      "fecha": "Mon Feb 16 2026 00:00:00 GMT+0100 (hora estándar de Europa central)",
+      "fecha": "16/02/2026",
       "empresa": "IMSERSO (S.FDO)",
       "vacante": "ORDENANZA",
       "lugar": "SAN FERNANDO",
@@ -966,7 +966,7 @@
     },
     {
       "id": "1700000087000",
-      "fecha": "Mon Feb 16 2026 00:00:00 GMT+0100 (hora estándar de Europa central)",
+      "fecha": "16/02/2026",
       "empresa": "AYUNTAMIENTO DE BARBATE",
       "vacante": "ORIENTADORES",
       "lugar": "BARBATE",
@@ -977,7 +977,7 @@
     },
     {
       "id": "1700000088000",
-      "fecha": "Mon Feb 16 2026 00:00:00 GMT+0100 (hora estándar de Europa central)",
+      "fecha": "16/02/2026",
       "empresa": "AYUNTAMIENTO DE ROTA",
       "vacante": "ORIENTADORES",
       "lugar": "ROTA",
@@ -988,7 +988,7 @@
     },
     {
       "id": "1700000089000",
-      "fecha": "Thu Feb 26 2026 00:00:00 GMT+0100 (hora estándar de Europa central)",
+      "fecha": "26/02/2026",
       "empresa": "fundación hazlo posible",
       "vacante": "Técnico Psicólogo",
       "lugar": "Cádiz",
@@ -999,7 +999,7 @@
     },
     {
       "id": "1700000090000",
-      "fecha": "Wed Mar 04 2026 00:00:00 GMT+0100 (hora estándar de Europa central)",
+      "fecha": "04/03/2026",
       "empresa": "MERCADONA",
       "vacante": "Personal supermercado",
       "lugar": "San Fernando",
@@ -1010,7 +1010,7 @@
     },
     {
       "id": "1700000091000",
-      "fecha": "Wed Mar 04 2026 00:00:00 GMT+0100 (hora estándar de Europa central)",
+      "fecha": "04/03/2026",
       "empresa": "JL",
       "vacante": "Encargada de tienda",
       "lugar": "San Fernando",
@@ -1021,7 +1021,7 @@
     },
     {
       "id": "1700000092000",
-      "fecha": "Mon Mar 09 2026 00:00:00 GMT+0100 (hora estándar de Europa central)",
+      "fecha": "09/03/2026",
       "empresa": "Alttion",
       "vacante": "Técnico PRL",
       "lugar": "Chiclana",
@@ -1032,7 +1032,7 @@
     },
     {
       "id": "1700000093000",
-      "fecha": "Wed Mar 11 2026 00:00:00 GMT+0100 (hora estándar de Europa central)",
+      "fecha": "11/03/2026",
       "empresa": "Programa Andalucía Orienta",
       "vacante": "Técnico de Orientación",
       "lugar": "Alcalá,....",
@@ -1043,7 +1043,7 @@
     },
     {
       "id": "1700000094000",
-      "fecha": "Fri Mar 13 2026 00:00:00 GMT+0100 (hora estándar de Europa central)",
+      "fecha": "13/03/2026",
       "empresa": "SAMU",
       "vacante": "Técnico de Integración social",
       "lugar": "Cádiz",
@@ -1054,7 +1054,7 @@
     },
     {
       "id": "1700000095000",
-      "fecha": "Fri Mar 13 2026 00:00:00 GMT+0100 (hora estándar de Europa central)",
+      "fecha": "13/03/2026",
       "empresa": "Cáritas Diocesana de Cádiz",
       "vacante": "Autocandidatura",
       "lugar": "Cádiz",
@@ -1065,7 +1065,7 @@
     },
     {
       "id": "1700000096000",
-      "fecha": "Mon Mar 16 2026 00:00:00 GMT+0100 (hora estándar de Europa central)",
+      "fecha": "16/03/2026",
       "empresa": "Fundación Diagrama",
       "vacante": "Educadora",
       "lugar": "Cádiz",
@@ -1076,7 +1076,7 @@
     },
     {
       "id": "1700000097000",
-      "fecha": "Tue Mar 17 2026 00:00:00 GMT+0100 (hora estándar de Europa central)",
+      "fecha": "17/03/2026",
       "empresa": "Clece",
       "vacante": "Gestora de servicios",
       "lugar": "Cádiz provincia",
@@ -1087,7 +1087,7 @@
     },
     {
       "id": "1700000098000",
-      "fecha": "Fri Mar 27 2026 00:00:00 GMT+0100 (hora estándar de Europa central)",
+      "fecha": "27/03/2026",
       "empresa": "Fundación Diaconia",
       "vacante": "Educadora Scocial",
       "lugar": "El Puerto Santa Mª",
@@ -1098,7 +1098,7 @@
     },
     {
       "id": "1700000099000",
-      "fecha": "Sat Mar 28 2026 00:00:00 GMT+0100 (hora estándar de Europa central)",
+      "fecha": "28/03/2026",
       "empresa": "Clece",
       "vacante": "Técnico de apoyo",
       "lugar": "Jerez",
@@ -1111,7 +1111,7 @@
   "Manuel Puente Dopazo": [
     {
       "id": "1700000100000",
-      "fecha": "Thu Jan 29 2026 00:00:00 GMT+0100 (hora estándar de Europa central)",
+      "fecha": "29/01/2026",
       "empresa": "Philips Morris Spain",
       "vacante": "comercial",
       "lugar": "Zona de la Bahia",
@@ -1122,7 +1122,7 @@
     },
     {
       "id": "1700000101000",
-      "fecha": "Fri Jan 30 2026 00:00:00 GMT+0100 (hora estándar de Europa central)",
+      "fecha": "30/01/2026",
       "empresa": "ALE_HOP",
       "vacante": "Personal de tienda",
       "lugar": "Cádiz/San Fernando",
@@ -1133,7 +1133,7 @@
     },
     {
       "id": "1700000102000",
-      "fecha": "Tue Feb 03 2026 00:00:00 GMT+0100 (hora estándar de Europa central)",
+      "fecha": "03/02/2026",
       "empresa": "Baluarte Asesores",
       "vacante": "Auxiliar administrativo",
       "lugar": "Cádiz",
@@ -1144,7 +1144,7 @@
     },
     {
       "id": "1700000103000",
-      "fecha": "Fri Feb 13 2026 00:00:00 GMT+0100 (hora estándar de Europa central)",
+      "fecha": "13/02/2026",
       "empresa": "Asuntos sociales San Fernando",
       "vacante": "Ordenanzas",
       "lugar": "San Fernando",
@@ -1155,7 +1155,7 @@
     },
     {
       "id": "1700000104000",
-      "fecha": "Fri Feb 20 2026 00:00:00 GMT+0100 (hora estándar de Europa central)",
+      "fecha": "20/02/2026",
       "empresa": "ONCE",
       "vacante": "Auxiliar administrativo",
       "lugar": "Chiclana",
@@ -1166,7 +1166,7 @@
     },
     {
       "id": "1700000105000",
-      "fecha": "Sat Feb 21 2026 00:00:00 GMT+0100 (hora estándar de Europa central)",
+      "fecha": "21/02/2026",
       "empresa": "Mercadona",
       "vacante": "Personal de supermercado",
       "lugar": "Puerto Real",
@@ -1177,7 +1177,7 @@
     },
     {
       "id": "1700000106000",
-      "fecha": "Sun Feb 22 2026 00:00:00 GMT+0100 (hora estándar de Europa central)",
+      "fecha": "22/02/2026",
       "empresa": "Mercadona",
       "vacante": "Personal de supermercado",
       "lugar": "San Fernando",
@@ -1188,7 +1188,7 @@
     },
     {
       "id": "1700000107000",
-      "fecha": "Tue Mar 03 2026 00:00:00 GMT+0100 (hora estándar de Europa central)",
+      "fecha": "03/03/2026",
       "empresa": "PEPCO SL",
       "vacante": "Cajero, reponedor",
       "lugar": "Puerto Real",
@@ -1199,7 +1199,7 @@
     },
     {
       "id": "1700000108000",
-      "fecha": "Tue Mar 03 2026 00:00:00 GMT+0100 (hora estándar de Europa central)",
+      "fecha": "03/03/2026",
       "empresa": "Grupo Eroski",
       "vacante": "Cajero, reponedor",
       "lugar": "Valdelagrana",
@@ -1210,7 +1210,7 @@
     },
     {
       "id": "1700000109000",
-      "fecha": "Tue Mar 03 2026 00:00:00 GMT+0100 (hora estándar de Europa central)",
+      "fecha": "03/03/2026",
       "empresa": "Grupo Eroski",
       "vacante": "Responsable de tienda",
       "lugar": "Valdelagrana",
@@ -1221,7 +1221,7 @@
     },
     {
       "id": "1700000110000",
-      "fecha": "Wed Mar 04 2026 00:00:00 GMT+0100 (hora estándar de Europa central)",
+      "fecha": "04/03/2026",
       "empresa": "Ilunion emergencias",
       "vacante": "Operador de llamadas",
       "lugar": "Puerto Real",
@@ -1232,7 +1232,7 @@
     },
     {
       "id": "1700000111000",
-      "fecha": "Sat Mar 07 2026 00:00:00 GMT+0100 (hora estándar de Europa central)",
+      "fecha": "07/03/2026",
       "empresa": "ONCE",
       "vacante": "Auxiliar administrativo",
       "lugar": "Jerez",
@@ -1243,7 +1243,7 @@
     },
     {
       "id": "1700000112000",
-      "fecha": "Sat Mar 07 2026 00:00:00 GMT+0100 (hora estándar de Europa central)",
+      "fecha": "07/03/2026",
       "empresa": "GrupoOsborne",
       "vacante": "Auxiliar administrativo",
       "lugar": "Puerto Santa Maria",
@@ -1254,7 +1254,7 @@
     },
     {
       "id": "1700000113000",
-      "fecha": "Wed Mar 11 2026 00:00:00 GMT+0100 (hora estándar de Europa central)",
+      "fecha": "11/03/2026",
       "empresa": "El motorista S.L",
       "vacante": "comercial",
       "lugar": "Chiclana",
@@ -1265,7 +1265,7 @@
     },
     {
       "id": "1700000114000",
-      "fecha": "Sun Mar 17 2024 00:00:00 GMT+0100 (hora estándar de Europa central)",
+      "fecha": "17/03/2024",
       "empresa": "Rame S-L",
       "vacante": "comercial",
       "lugar": "Puerto Real",
@@ -1276,7 +1276,7 @@
     },
     {
       "id": "1700000115000",
-      "fecha": "Tue Mar 17 2026 00:00:00 GMT+0100 (hora estándar de Europa central)",
+      "fecha": "17/03/2026",
       "empresa": "Mariscos Almeida",
       "vacante": "comercial",
       "lugar": "Cádiz",
@@ -1287,7 +1287,7 @@
     },
     {
       "id": "1700000116000",
-      "fecha": "Tue Mar 24 2026 00:00:00 GMT+0100 (hora estándar de Europa central)",
+      "fecha": "24/03/2026",
       "empresa": "Pampling S.L",
       "vacante": "Dependiente",
       "lugar": "Cádiz",
@@ -1298,7 +1298,7 @@
     },
     {
       "id": "1700000117000",
-      "fecha": "Tue Mar 24 2026 00:00:00 GMT+0100 (hora estándar de Europa central)",
+      "fecha": "24/03/2026",
       "empresa": "Brico depot",
       "vacante": "Almacen, personal",
       "lugar": "San Fernando",
@@ -1309,7 +1309,7 @@
     },
     {
       "id": "1700000118000",
-      "fecha": "Thu Mar 26 2026 00:00:00 GMT+0100 (hora estándar de Europa central)",
+      "fecha": "26/03/2026",
       "empresa": "ONCE",
       "vacante": "Personal de mantenimiento",
       "lugar": "Cádiz",
@@ -1322,7 +1322,7 @@
   "Marta De ory ruiz": [
     {
       "id": "1700000119000",
-      "fecha": "Wed Oct 08 2025 00:00:00 GMT+0200 (hora de verano de Europa central)",
+      "fecha": "08/10/2025",
       "empresa": "Raposo y Mosteiro",
       "vacante": "Oficial Administrativo/a",
       "lugar": "San Fernando",
@@ -1333,7 +1333,7 @@
     },
     {
       "id": "1700000120000",
-      "fecha": "Sun Jan 19 2025 00:00:00 GMT+0100 (hora estándar de Europa central)",
+      "fecha": "19/01/2025",
       "empresa": "Electromedicina",
       "vacante": "Auxiliar Administrativo/a",
       "lugar": "Cádiz",
@@ -1344,7 +1344,7 @@
     },
     {
       "id": "1700000121000",
-      "fecha": "Wed Feb 11 2026 00:00:00 GMT+0100 (hora estándar de Europa central)",
+      "fecha": "11/02/2026",
       "empresa": "CONSORCIO DE LA ZONA FRANCA DE CADIZ",
       "vacante": "EMPLEADOS ADMINISTRATIVOS, EN GENERAL",
       "lugar": "Cádiz",
@@ -1355,7 +1355,7 @@
     },
     {
       "id": "1700000122000",
-      "fecha": "Thu Feb 12 2026 00:00:00 GMT+0100 (hora estándar de Europa central)",
+      "fecha": "12/02/2026",
       "empresa": "C R M F INSERSO MINISTERIO DE ASUNTOS SOCIALES DE S FER",
       "vacante": "ORDENANZAS",
       "lugar": "San Fernando",
@@ -1366,7 +1366,7 @@
     },
     {
       "id": "1700000123000",
-      "fecha": "Sun Feb 23 2025 00:00:00 GMT+0100 (hora estándar de Europa central)",
+      "fecha": "23/02/2025",
       "empresa": "Supermercado DIA",
       "vacante": "Cajera, auxiliar, reponedora, auxiliar administrativo",
       "lugar": "San Fernando",
@@ -1377,7 +1377,7 @@
     },
     {
       "id": "1700000124000",
-      "fecha": "Mon Mar 02 2026 00:00:00 GMT+0100 (hora estándar de Europa central)",
+      "fecha": "02/03/2026",
       "empresa": "Supermercado Mercadona",
       "vacante": "Cajera, auxiliar, reponedora",
       "lugar": "San Fernando",
@@ -1388,7 +1388,7 @@
     },
     {
       "id": "1700000125000",
-      "fecha": "Wed Mar 11 2026 00:00:00 GMT+0100 (hora estándar de Europa central)",
+      "fecha": "11/03/2026",
       "empresa": "CNI",
       "vacante": "Administrstivo",
       "lugar": "-",
@@ -1399,7 +1399,7 @@
     },
     {
       "id": "1700000126000",
-      "fecha": "Thu Feb 26 2026 00:00:00 GMT+0100 (hora estándar de Europa central)",
+      "fecha": "26/02/2026",
       "empresa": "Curso de inteligencia artificial",
       "vacante": "",
       "lugar": "web",
@@ -1410,7 +1410,7 @@
     },
     {
       "id": "1700000127000",
-      "fecha": "Sun Mar 01 2026 00:00:00 GMT+0100 (hora estándar de Europa central)",
+      "fecha": "01/03/2026",
       "empresa": "Maximiza la productividad con herramientas de IA",
       "vacante": "",
       "lugar": "web",
@@ -1421,7 +1421,7 @@
     },
     {
       "id": "1700000128000",
-      "fecha": "Thu Jan 02 2025 00:00:00 GMT+0100 (hora estándar de Europa central)",
+      "fecha": "02/01/2025",
       "empresa": "Oposicon administrativo",
       "vacante": "Administrstivo",
       "lugar": "-",
@@ -1432,7 +1432,7 @@
     },
     {
       "id": "1700000129000",
-      "fecha": "Fri Mar 27 2026 00:00:00 GMT+0100 (hora estándar de Europa central)",
+      "fecha": "27/03/2026",
       "empresa": "Curso \"Gestion logistica y almacen\" (30h.)",
       "vacante": "gestion logistica y almacen",
       "lugar": "web",
@@ -1467,7 +1467,7 @@
   "José Luis Estevez Morera": [
     {
       "id": "1700000132000",
-      "fecha": "Mon Feb 23 2026 00:00:00 GMT+0100 (hora estándar de Europa central)",
+      "fecha": "23/02/2026",
       "empresa": "ALLIANZ",
       "vacante": "INSPECTOR COMERCIAL",
       "lugar": "ZARAGOZA",
@@ -1478,7 +1478,7 @@
     },
     {
       "id": "1700000133000",
-      "fecha": "Tue Feb 24 2026 00:00:00 GMT+0100 (hora estándar de Europa central)",
+      "fecha": "24/02/2026",
       "empresa": "GRUPO MARS",
       "vacante": "RESPONSABLE TIENDA",
       "lugar": "PUERTO REAL",
@@ -1489,7 +1489,7 @@
     },
     {
       "id": "1700000134000",
-      "fecha": "Tue Feb 24 2026 00:00:00 GMT+0100 (hora estándar de Europa central)",
+      "fecha": "24/02/2026",
       "empresa": "MGS",
       "vacante": "DIRECTOR COMERCIAL",
       "lugar": "CANTABRIA",
@@ -1500,7 +1500,7 @@
     },
     {
       "id": "1700000135000",
-      "fecha": "Tue Mar 03 2026 00:00:00 GMT+0100 (hora estándar de Europa central)",
+      "fecha": "03/03/2026",
       "empresa": "EMPRESA EVALUACION",
       "vacante": "RESPONSABLE EQ.COMERCIAL",
       "lugar": "CADIZ",
@@ -1511,7 +1511,7 @@
     },
     {
       "id": "1700000136000",
-      "fecha": "Thu Mar 05 2026 00:00:00 GMT+0100 (hora estándar de Europa central)",
+      "fecha": "05/03/2026",
       "empresa": "OBRAMAT",
       "vacante": "RESPONSABLE COMERCIAL",
       "lugar": "CADIZ",
@@ -1522,7 +1522,7 @@
     },
     {
       "id": "1700000137000",
-      "fecha": "Fri Mar 06 2026 00:00:00 GMT+0100 (hora estándar de Europa central)",
+      "fecha": "06/03/2026",
       "empresa": "AEGON SEGUROS",
       "vacante": "DIRECTOR TERRITORIAL",
       "lugar": "MADRID",
@@ -1533,7 +1533,7 @@
     },
     {
       "id": "1700000138000",
-      "fecha": "Fri Mar 20 2026 00:00:00 GMT+0100 (hora estándar de Europa central)",
+      "fecha": "20/03/2026",
       "empresa": "RAME",
       "vacante": "ADMINISTRATIVO",
       "lugar": "PUERTO REAL",
@@ -1544,7 +1544,7 @@
     },
     {
       "id": "1700000139000",
-      "fecha": "Tue Mar 24 2026 00:00:00 GMT+0100 (hora estándar de Europa central)",
+      "fecha": "24/03/2026",
       "empresa": "LEROY MERLIN",
       "vacante": "VENDEDOR",
       "lugar": "PUERTO REAL",
@@ -1557,7 +1557,7 @@
   "MACARENA NAVARRO BAILÓN": [
     {
       "id": "1700000140000",
-      "fecha": "Tue Feb 24 2026 00:00:00 GMT+0100 (hora estándar de Europa central)",
+      "fecha": "24/02/2026",
       "empresa": "INNOVA BY SERGIO VILLALBA",
       "vacante": "RESPONSABLE DE OPERACIONES INMOBILIARIAS",
       "lugar": "SAN FERNANDO",
@@ -1568,7 +1568,7 @@
     },
     {
       "id": "1700000141000",
-      "fecha": "Wed Feb 25 2026 00:00:00 GMT+0100 (hora estándar de Europa central)",
+      "fecha": "25/02/2026",
       "empresa": "AYUDA T SOLUCIONES Profesionales S.L",
       "vacante": "COMERCIAL/ORIENTADOR",
       "lugar": "INFOJOBS",
@@ -1579,7 +1579,7 @@
     },
     {
       "id": "1700000142000",
-      "fecha": "Wed Feb 25 2026 00:00:00 GMT+0100 (hora estándar de Europa central)",
+      "fecha": "25/02/2026",
       "empresa": "Y FLEXICAR AUTOMOCIÓN",
       "vacante": "CAPTADOR COMERCIAL",
       "lugar": "INFOJOBS",
@@ -1590,7 +1590,7 @@
     },
     {
       "id": "1700000143000",
-      "fecha": "Sun Mar 01 2026 00:00:00 GMT+0100 (hora estándar de Europa central)",
+      "fecha": "01/03/2026",
       "empresa": "InfoJobs Assistance",
       "vacante": "AUX.ADMINISTRATIVO",
       "lugar": "INFOJOBS",
@@ -1601,7 +1601,7 @@
     },
     {
       "id": "1700000144000",
-      "fecha": "Sun Mar 01 2026 00:00:00 GMT+0100 (hora estándar de Europa central)",
+      "fecha": "01/03/2026",
       "empresa": "Grupo ASV - Servicios Funerarios",
       "vacante": "FUNERARIO/ASESOR",
       "lugar": "INFOJOBS",
@@ -1612,7 +1612,7 @@
     },
     {
       "id": "1700000145000",
-      "fecha": "Wed Mar 04 2026 00:00:00 GMT+0100 (hora estándar de Europa central)",
+      "fecha": "04/03/2026",
       "empresa": "ILUNION EMERGENCIAS, S.A",
       "vacante": "OPERADOR/ATENCIÓN AL CLIENTE EMERGENCIAS",
       "lugar": "INFOJOBS",
@@ -1623,7 +1623,7 @@
     },
     {
       "id": "1700000146000",
-      "fecha": "Wed Mar 04 2026 00:00:00 GMT+0100 (hora estándar de Europa central)",
+      "fecha": "04/03/2026",
       "empresa": "TRATEWO S.L COSTA SUR",
       "vacante": "AGENTE DE RESERVAS Y ATENCIÓN AL CLIENTE",
       "lugar": "INFOJOBS",
@@ -1634,7 +1634,7 @@
     },
     {
       "id": "1700000147000",
-      "fecha": "Wed Mar 04 2026 00:00:00 GMT+0100 (hora estándar de Europa central)",
+      "fecha": "04/03/2026",
       "empresa": "Y CALL CENTER",
       "vacante": "AGENTE DE ATENCIÓN AL CLIENTE Y COMERCIAL",
       "lugar": "INFOJOBS",
@@ -1645,7 +1645,7 @@
     },
     {
       "id": "1700000148000",
-      "fecha": "Thu Mar 05 2026 00:00:00 GMT+0100 (hora estándar de Europa central)",
+      "fecha": "05/03/2026",
       "empresa": "LaooaLDental",
       "vacante": "AUX.ADMINISTRATIVO/RECEPCIONISTA",
       "lugar": "INFOJOBS",
@@ -1656,7 +1656,7 @@
     },
     {
       "id": "1700000149000",
-      "fecha": "Thu Mar 05 2026 00:00:00 GMT+0100 (hora estándar de Europa central)",
+      "fecha": "05/03/2026",
       "empresa": "DEKRA EMPLEO,S.L.",
       "vacante": "AUX.ADMINISTRATIVO",
       "lugar": "INFOJOBS",
@@ -1667,7 +1667,7 @@
     },
     {
       "id": "1700000150000",
-      "fecha": "Thu Mar 05 2026 00:00:00 GMT+0100 (hora estándar de Europa central)",
+      "fecha": "05/03/2026",
       "empresa": "GRUPO TRAGSA",
       "vacante": "ADMINISTRATIVA",
       "lugar": "ANDALUCIA ORIENTA",
@@ -1678,7 +1678,7 @@
     },
     {
       "id": "1700000151000",
-      "fecha": "Tue Mar 17 2026 00:00:00 GMT+0100 (hora estándar de Europa central)",
+      "fecha": "17/03/2026",
       "empresa": "DOMUS VI RESIDENCIAL MICAELA ARAMBURU",
       "vacante": "RECEPCIONISTA",
       "lugar": "INFOJOBS",
@@ -1691,7 +1691,7 @@
   "Jose Luis Díaz Salvago": [
     {
       "id": "1775076290301",
-      "fecha": "Mon Mar 23 2026 00:00:00 GMT+0100 (hora estándar de Europa central)",
+      "fecha": "23/03/2026",
       "empresa": "El motorista",
       "vacante": "Diseñador gráfico",
       "lugar": "Jerez",
@@ -1705,7 +1705,7 @@
       "fecha": "",
       "empresa": "prueba",
       "vacante": "",
-      "lugar": "",
+      "lugar": "caduiz",
       "web": "",
       "entrevista": "No",
       "resultado": "",
