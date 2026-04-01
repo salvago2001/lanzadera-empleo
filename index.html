@@ -126,6 +126,8 @@
   .add-post-btn:hover { background: #1d4ed8; }
   .edit-post-btn { padding: 3px 10px; background: var(--tag-bg); color: var(--text-secondary); border: 1px solid var(--border); border-radius: 6px; font-size: 0.73rem; cursor: pointer; font-weight: 500; transition: all 0.15s; white-space: nowrap; }
   .edit-post-btn:hover { background: var(--accent-light); color: var(--accent); border-color: var(--accent); }
+  .del-post-btn { padding: 3px 8px; background: var(--tag-bg); color: var(--text-secondary); border: 1px solid var(--border); border-radius: 6px; font-size: 0.73rem; cursor: pointer; transition: all 0.15s; white-space: nowrap; }
+  .del-post-btn:hover { background: #fee2e2; color: #dc2626; border-color: #fca5a5; }
 
   /* Postulación form modal */
   .pform-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.6); z-index: 300; align-items: center; justify-content: center; padding: 20px; }
@@ -733,6 +735,7 @@ function buildPostHTML(posts, p) {
   const rows = posts.map(pt => {
     const cid = _cachePost(pt);
     const editBtn = '<button class="edit-post-btn" onclick="event.stopPropagation();openPFormById(\'' + cid + '\',decodeURIComponent(\'' + safeN + '\'))">✏️ Editar</button>';
+    const delBtn  = '<button class="del-post-btn"  onclick="event.stopPropagation();deletePost(\'' + cid + '\',decodeURIComponent(\'' + safeN + '\'))">🗑️</button>';
     return '<tr>' +
       '<td>' + (pt.fecha || '—') + '</td>' +
       '<td><strong>' + (pt.empresa || '—') + '</strong></td>' +
@@ -740,7 +743,7 @@ function buildPostHTML(posts, p) {
       '<td>' + (pt.lugar || '—') + '</td>' +
       '<td>' + (pt.entrevista === 'Sí' ? '<span style="color:var(--green);font-weight:600">✓ Sí</span>' : '<span style="color:var(--text-secondary)">No</span>') + '</td>' +
       '<td>' + (pt.resultado || '—') + '</td>' +
-      '<td>' + editBtn + '</td>' +
+      '<td style="white-space:nowrap">' + editBtn + ' ' + delBtn + '</td>' +
       '</tr>';
   }).join('');
   return '<div class="post-count">📋 ' + posts.length + ' postulaciones</div>' +
@@ -752,6 +755,40 @@ function buildPostHTML(posts, p) {
 function openPFormById(postId, participante) {
   const pt = _postCache[postId];
   if (pt) openPForm('edit', participante, pt);
+}
+
+async function deletePost(postId, participante) {
+  if (!confirm('¿Eliminar esta postulación?')) return;
+
+  // Eliminar localmente
+  if (POSTULACIONES[participante]) {
+    POSTULACIONES[participante] = POSTULACIONES[participante].filter(p => p.id !== postId);
+  }
+
+  // Refrescar tabla en el modal
+  const p = DATA[currentModalIdx];
+  if (p && getFullName(p) === participante) {
+    const postSection = document.querySelector('#modalContent .modal-section:last-child .modal-section-title');
+    if (postSection) {
+      const posts = getPostulaciones(p);
+      const parent = postSection.parentElement;
+      parent.innerHTML = '<div class="modal-section-title">Postulaciones</div>' + buildPostHTML(posts, p);
+    }
+  }
+
+  showToast('🗑️ Postulación eliminada');
+
+  // Sincronizar con el servidor
+  if (APPS_SCRIPT_URL) {
+    try {
+      const payload = { action: 'delete', id: postId, participante };
+      await fetch(APPS_SCRIPT_URL, {
+        method: 'POST',
+        mode: 'no-cors',
+        body: new URLSearchParams({ payload: JSON.stringify(payload) })
+      });
+    } catch(err) { console.warn('Sync error:', err); }
+  }
 }
 
 /* ─── Formulario postulación ─────────────────────────────── */
@@ -835,8 +872,7 @@ async function submitPForm() {
       await fetch(APPS_SCRIPT_URL, {
         method: 'POST',
         mode: 'no-cors',
-        headers: { 'Content-Type': 'text/plain' },
-        body: JSON.stringify(payload)
+        body: new URLSearchParams({ payload: JSON.stringify(payload) })
       });
     } catch(e) { console.warn('Sync error:', e); }
   } else {
