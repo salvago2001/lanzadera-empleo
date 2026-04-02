@@ -237,6 +237,41 @@
   .bar-value { font-size: 0.75rem; font-weight: 700; color: white; }
   .bar-value-outside { font-size: 0.75rem; font-weight: 600; color: var(--text-secondary); margin-left: 8px; }
 
+  /* Ranking */
+  .ranking-row { display: flex; align-items: center; gap: 12px; padding: 10px 14px; border-radius: 8px; margin-bottom: 6px; border: 1px solid var(--border); }
+  .ranking-row:nth-child(1) { background: #fffbeb; border-color: #fbbf24; }
+  .ranking-row:nth-child(2) { background: #f8fafc; border-color: #cbd5e1; }
+  .ranking-row:nth-child(3) { background: #fff7f3; border-color: #fb923c; }
+  .ranking-row:nth-child(n+4) { background: var(--card); }
+  .rank-pos { font-size: 1.25rem; min-width: 32px; text-align: center; }
+  .rank-name { flex: 1; font-weight: 600; font-size: 0.9rem; }
+  .rank-badges { display: flex; gap: 6px; flex-wrap: wrap; }
+  .rank-badge { display: inline-flex; align-items: center; gap: 3px; padding: 3px 9px; border-radius: 20px; font-size: 0.75rem; font-weight: 600; }
+  .rank-badge-total { background: var(--accent-light); color: var(--accent); }
+  .rank-badge-entrev { background: #fef3c7; color: #b45309; }
+  .rank-badge-ok { background: var(--green-bg); color: var(--green); }
+
+  /* Reuniones */
+  .reunion-card { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; margin-bottom: 14px; display: flex; gap: 16px; align-items: flex-start; box-shadow: var(--shadow); }
+  .reunion-card.reunion-next { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(37,99,235,0.12); }
+  .reunion-date-box { text-align: center; min-width: 62px; background: var(--accent-light); border-radius: 8px; padding: 8px 6px; flex-shrink: 0; }
+  .reunion-card.reunion-next .reunion-date-box { background: var(--accent); }
+  .reunion-day { font-size: 1.9rem; font-weight: 800; color: var(--accent); line-height: 1; }
+  .reunion-card.reunion-next .reunion-day { color: white; }
+  .reunion-month { font-size: 0.68rem; font-weight: 700; color: var(--accent); text-transform: uppercase; letter-spacing: 0.04em; }
+  .reunion-card.reunion-next .reunion-month { color: rgba(255,255,255,0.85); }
+  .reunion-info { flex: 1; }
+  .reunion-name { font-size: 1rem; font-weight: 700; margin-bottom: 3px; }
+  .reunion-activity { font-size: 0.82rem; color: var(--text-secondary); margin-bottom: 10px; }
+  .reunion-meta { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+  .badge-online { background: #eff6ff; color: var(--accent); padding: 2px 10px; border-radius: 20px; font-size: 0.75rem; font-weight: 600; }
+  .badge-presencial { background: var(--green-bg); color: var(--green); padding: 2px 10px; border-radius: 20px; font-size: 0.75rem; font-weight: 600; }
+  .reunion-hour { font-size: 0.82rem; color: var(--text-secondary); }
+  .teams-link { display: inline-flex; align-items: center; gap: 6px; padding: 5px 14px; background: #5b5fc7; color: white; border-radius: 6px; font-size: 0.8rem; font-weight: 600; text-decoration: none; transition: background 0.15s; }
+  .teams-link:hover { background: #4a4eb8; }
+  .reunion-next-label { display: inline-flex; align-items: center; gap: 5px; padding: 2px 10px; background: var(--accent); color: white; border-radius: 20px; font-size: 0.72rem; font-weight: 700; margin-bottom: 10px; }
+  .reuniones-empty { text-align: center; padding: 48px 24px; color: var(--text-secondary); }
+
 
   .avatar-img { width: 48px; height: 48px; border-radius: 50%; object-fit: cover; flex-shrink: 0; }
   .modal-avatar-img { width: 56px; height: 56px; border-radius: 50%; object-fit: cover; }
@@ -280,6 +315,7 @@
   <button class="tab-btn active" onclick="switchTab('participantes')">👥 Participantes</button>
   <button class="tab-btn" onclick="switchTab('empresas')">🏢 Empresas Diana</button>
   <button class="tab-btn" onclick="switchTab('estadisticas')">📊 Estadísticas</button>
+  <button class="tab-btn" onclick="switchTab('reuniones')">📅 Reuniones</button>
 </div>
 
 <!-- PARTICIPANTES TAB -->
@@ -328,6 +364,13 @@
 <div id="tab-estadisticas" class="tab-section">
   <div class="container" style="padding-top: 20px;">
     <div id="statsContent"></div>
+  </div>
+</div>
+
+<!-- REUNIONES TAB -->
+<div id="tab-reuniones" class="tab-section">
+  <div class="container" style="padding-top: 20px;">
+    <div id="reunionesContent"></div>
   </div>
 </div>
 
@@ -1069,26 +1112,48 @@ function renderStats() {
   let totalPosts = 0, totalEntrevistas = 0;
   const perPerson = [];
   const empresaCount = {};
+  const POSITIVO_EXCLUDE = ['en espera','descartado','imagino que descartado','finalizada.','none',''];
 
   DATA.forEach(p => {
     const posts = getPostulaciones(p);
-    const name = p.nombre + ' ' + (p.apellidos ? p.apellidos.split(' ')[0] : '');
+    const fullName = p.nombre + ' ' + (p.apellidos || '');
+    const shortName = p.nombre + ' ' + (p.apellidos ? p.apellidos.split(' ')[0] : '');
     totalPosts += posts.length;
+    let entrev = 0, positivo = 0;
     posts.forEach(pt => {
-      if (pt.entrevista === 'Sí') totalEntrevistas++;
-      const emp = pt.empresa.trim();
+      const eStr = (pt.entrevista || '').toString().toLowerCase();
+      if (['sí','si','true','1','yes'].includes(eStr)) entrev++;
+      const res = (pt.resultado || '').toString().toLowerCase().trim();
+      if (!POSITIVO_EXCLUDE.includes(res)) positivo++;
+      const emp = (pt.empresa || '').trim();
       if (emp) empresaCount[emp] = (empresaCount[emp] || 0) + 1;
     });
-    perPerson.push({name, count: posts.length});
+    totalEntrevistas += entrev;
+    const score = positivo * 3 + entrev;
+    perPerson.push({name: shortName, fullName, count: posts.length, entrev, positivo, score});
   });
 
-  perPerson.sort((a, b) => b.count - a.count);
-  const maxPerson = Math.max(...perPerson.map(p => p.count), 1);
+  const byCount = [...perPerson].sort((a, b) => b.count - a.count);
+  const byScore = [...perPerson].sort((a, b) => b.score - a.score || b.entrev - a.entrev || b.count - a.count);
+  const maxPerson = Math.max(...byCount.map(p => p.count), 1);
 
   const topEmpresas = Object.entries(empresaCount).sort((a, b) => b[1] - a[1]).slice(0, 15);
   const maxEmpresa = topEmpresas.length ? topEmpresas[0][1] : 1;
 
   const tasaEntrevista = totalPosts > 0 ? Math.round(totalEntrevistas / totalPosts * 100) : 0;
+  const MEDALS = ['🥇','🥈','🥉'];
+
+  const rankingRows = byScore.map((p, i) => {
+    const medal = i < 3 ? MEDALS[i] : (i + 1) + '.';
+    const entrevBadge = p.entrev > 0 ? '<span class="rank-badge rank-badge-entrev">🎯 ' + p.entrev + ' entrev.</span>' : '';
+    const okBadge = p.positivo > 0 ? '<span class="rank-badge rank-badge-ok">✅ ' + p.positivo + ' positivo' + (p.positivo > 1 ? 's' : '') + '</span>' : '';
+    const totalBadge = '<span class="rank-badge rank-badge-total">📋 ' + p.count + '</span>';
+    return '<div class="ranking-row">'
+      + '<span class="rank-pos">' + medal + '</span>'
+      + '<span class="rank-name">' + p.name + '</span>'
+      + '<div class="rank-badges">' + totalBadge + entrevBadge + okBadge + '</div>'
+      + '</div>';
+  }).join('');
 
   document.getElementById('statsContent').innerHTML = `
     <div class="stats-grid">
@@ -1099,8 +1164,14 @@ function renderStats() {
     </div>
 
     <div class="chart-section">
+      <div class="chart-title">🏆 Ranking de éxito — mejor a peor</div>
+      <p style="font-size:0.78rem;color:var(--text-secondary);margin-bottom:14px;">Puntuación: resultados positivos (×3) + entrevistas conseguidas</p>
+      ${rankingRows}
+    </div>
+
+    <div class="chart-section">
       <div class="chart-title">Postulaciones por participante</div>
-      ${perPerson.map(p => `<div class="bar-row">
+      ${byCount.map(p => `<div class="bar-row">
         <div class="bar-label">${p.name}</div>
         <div class="bar-track"><div class="bar-fill" style="width:${p.count / maxPerson * 100}%">${p.count > 0 ? '<span class="bar-value">' + p.count + '</span>' : ''}</div></div>
         ${p.count === 0 ? '<span class="bar-value-outside">0</span>' : ''}
@@ -1117,15 +1188,93 @@ function renderStats() {
   `;
 }
 
+/* REUNIONES */
+const REUNIONES_URL = 'https://raw.githubusercontent.com/salvago2001/lanzadera-empleo/main/reuniones.json';
+const MONTHS_ES = ['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic'];
+const MONTHS_FULL = ['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
+
+function parseDate(ddmmyyyy) {
+  const [d, m, y] = ddmmyyyy.split('/');
+  return new Date(+y, +m - 1, +d);
+}
+
+async function renderReuniones() {
+  const box = document.getElementById('reunionesContent');
+  box.innerHTML = '<p style="color:var(--text-secondary);padding:20px 0;">Cargando reuniones…</p>';
+  let meetings;
+  try {
+    const r = await fetch(REUNIONES_URL + '?v=' + Date.now());
+    meetings = await r.json();
+  } catch(e) {
+    box.innerHTML = '<div class="reuniones-empty"><p>No se pudieron cargar las reuniones.<br>Comprueba tu conexión e inténtalo de nuevo.</p></div>';
+    return;
+  }
+
+  const today = new Date();
+  today.setHours(0,0,0,0);
+
+  const upcoming = meetings
+    .filter(m => m.fechaInicio && parseDate(m.fechaInicio) >= today)
+    .sort((a, b) => parseDate(a.fechaInicio) - parseDate(b.fechaInicio));
+
+  const past = meetings
+    .filter(m => m.fechaInicio && parseDate(m.fechaInicio) < today)
+    .sort((a, b) => parseDate(b.fechaInicio) - parseDate(a.fechaInicio))
+    .slice(0, 5);
+
+  if (!upcoming.length && !past.length) {
+    box.innerHTML = '<div class="reuniones-empty"><p>No hay reuniones disponibles.</p></div>';
+    return;
+  }
+
+  function reunionCard(m, isNext) {
+    const d = parseDate(m.fechaInicio);
+    const day = d.getDate();
+    const month = MONTHS_ES[d.getMonth()].toUpperCase();
+    const hora = m.horaInicio ? m.horaInicio.slice(0,5) + ' – ' + (m.horaFin ? m.horaFin.slice(0,5) : '') : '';
+    const modalBadge = m.modalidad === 'Online'
+      ? '<span class="badge-online">🌐 Online</span>'
+      : '<span class="badge-presencial">📍 Presencial</span>';
+    const teamsBtn = m.urlReunion
+      ? '<a href="' + m.urlReunion + '" target="_blank" class="teams-link">💻 Unirse a Teams</a>'
+      : '';
+    const nextLabel = isNext ? '<div><span class="reunion-next-label">⭐ Próxima reunión</span></div>' : '';
+    return '<div class="reunion-card' + (isNext ? ' reunion-next' : '') + '">'
+      + '<div class="reunion-date-box"><div class="reunion-day">' + day + '</div><div class="reunion-month">' + month + '</div></div>'
+      + '<div class="reunion-info">'
+      + nextLabel
+      + '<div class="reunion-name">' + m.nombre + '</div>'
+      + '<div class="reunion-activity">' + m.actividad + '</div>'
+      + '<div class="reunion-meta">' + modalBadge + (hora ? '<span class="reunion-hour">🕐 ' + hora + '</span>' : '') + teamsBtn + '</div>'
+      + '</div>'
+      + '</div>';
+  }
+
+  let html = '';
+  if (upcoming.length) {
+    html += '<div class="chart-section">';
+    html += '<div class="chart-title">📅 Próximas reuniones (' + upcoming.length + ')</div>';
+    html += upcoming.map((m, i) => reunionCard(m, i === 0)).join('');
+    html += '</div>';
+  }
+  if (past.length) {
+    html += '<div class="chart-section">';
+    html += '<div class="chart-title" style="color:var(--text-secondary);">🕓 Últimas reuniones pasadas</div>';
+    html += past.map(m => reunionCard(m, false)).join('');
+    html += '</div>';
+  }
+  box.innerHTML = html;
+}
+
 /* TABS */
 function switchTab(tab) {
   document.querySelectorAll('.tab-section').forEach(s => s.classList.remove('active'));
   document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
   document.getElementById('tab-' + tab).classList.add('active');
-  // Find the correct tab button
   document.querySelectorAll('.tab-btn').forEach(b => {
     if (b.getAttribute('onclick')?.includes("'" + tab + "'")) b.classList.add('active');
   });
+  if (tab === 'reuniones') renderReuniones();
 }
 
 /* KEYBOARD */
