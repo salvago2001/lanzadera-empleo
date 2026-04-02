@@ -237,6 +237,27 @@
   .bar-value { font-size: 0.75rem; font-weight: 700; color: white; }
   .bar-value-outside { font-size: 0.75rem; font-weight: 600; color: var(--text-secondary); margin-left: 8px; }
 
+  /* Card achievements */
+  .card-achievements { display: flex; gap: 5px; flex-wrap: wrap; margin-top: 10px; padding-top: 10px; border-top: 1px solid var(--border); align-items: center; }
+  .card-achievements-label { font-size: 0.68rem; color: var(--text-secondary); font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; margin-right: 2px; }
+  .card-badge { font-size: 1.2rem; line-height: 1; cursor: default; transition: transform 0.15s; display: inline-block; }
+  .card-badge:hover { transform: scale(1.35); }
+  /* Modal achievements */
+  .achievements-grid { display: flex; flex-wrap: wrap; gap: 10px; }
+  .achievement-pill { display: flex; align-items: center; gap: 10px; padding: 10px 14px; border-radius: 10px; border: 1.5px solid; min-width: 220px; flex: 1; }
+  .achievement-emoji { font-size: 1.6rem; line-height: 1; flex-shrink: 0; }
+  .achievement-name { font-size: 0.85rem; font-weight: 700; margin-bottom: 2px; }
+  .achievement-desc { font-size: 0.73rem; opacity: 0.75; }
+  /* Stats achievements summary */
+  .logros-summary { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 16px; }
+  .logro-stat { text-align: center; background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 12px 16px; min-width: 80px; }
+  .logro-stat-emoji { font-size: 1.4rem; display: block; }
+  .logro-stat-count { font-size: 1.1rem; font-weight: 800; color: var(--accent); }
+  .logro-stat-label { font-size: 0.68rem; color: var(--text-secondary); }
+  .logros-persona-row { display: flex; align-items: center; gap: 8px; padding: 8px 0; border-bottom: 1px solid var(--border); }
+  .logros-persona-name { min-width: 180px; font-size: 0.85rem; font-weight: 600; }
+  .logros-persona-badges { display: flex; gap: 4px; flex-wrap: wrap; }
+
   /* Ranking */
   .ranking-row { display: flex; align-items: center; gap: 12px; padding: 10px 14px; border-radius: 8px; margin-bottom: 6px; border: 1px solid var(--border); }
   .ranking-row:nth-child(1) { background: #fffbeb; border-color: #fbbf24; }
@@ -463,6 +484,7 @@ async function loadData() {
     return;
   }
   filtered = [...DATA];
+  computeRanks();
   populateFilters();
   populateParticipants();
   render();
@@ -660,6 +682,12 @@ function renderCards() {
         + (pO > 0 ? '<div class="stats-bar-seg other"   style="width:' + pO + '%"></div>' : '');
       postLine = '<div class="card-stats"><div class="card-stats-row">' + chips + '</div><div class="stats-bar">' + bars + '</div></div>';
     }
+    const achievements = getAchievements(p);
+    const badgeRow = achievements.length > 0
+      ? '<div class="card-achievements"><span class="card-achievements-label">Logros</span>'
+        + achievements.map(b => '<span class="card-badge" title="' + b.nombre + ': ' + b.desc + '">' + b.emoji + '</span>').join('')
+        + '</div>'
+      : '';
     return `
     <div class="card" onclick="openModal(${DATA.indexOf(p)})">
       <div class="card-header">
@@ -679,6 +707,7 @@ function renderCards() {
         <div class="info-item"><span class="info-label">Salario</span><span class="info-value">${p.salario}</span></div>
       </div>
       ${postLine}
+      ${badgeRow}
     </div>`;
   }).join('');
 }
@@ -823,6 +852,18 @@ function openModal(idx) {
         <div class="modal-field full"><span class="modal-field-label">Qué reforzar en la lanzadera</span><span class="modal-field-value">${p.reforzarLanzadera || '\u2014'}</span></div>
       </div>
     </div>
+
+    ${(() => {
+      const ach = getAchievements(p);
+      if (!ach.length) return '';
+      return '<div class="modal-section"><div class="modal-section-title">🏅 Logros desbloqueados</div>'
+        + '<div class="achievements-grid">'
+        + ach.map(b => '<div class="achievement-pill" style="background:' + b.bg + ';border-color:' + b.border + ';color:' + b.color + '">'
+            + '<span class="achievement-emoji">' + b.emoji + '</span>'
+            + '<div><div class="achievement-name">' + b.nombre + '</div><div class="achievement-desc">' + b.desc + '</div></div>'
+            + '</div>').join('')
+        + '</div></div>';
+    })()}
 
     <div class="modal-section">
       <div class="modal-section-title">Postulaciones</div>
@@ -1052,6 +1093,7 @@ async function reloadData() {
     DATA = await dResp.json();
     POSTULACIONES = await pResp.json();
     filtered = [...DATA];
+    computeRanks();
     populateFilters();
     populateParticipants();
     render();
@@ -1105,6 +1147,62 @@ function renderEmpresas() {
       ${renderInterestedHTML(e.nombre)}
     </div>`;
   }).join('');
+}
+
+/* ═══════════════════════════════════════════════
+   GAMIFICATION — LOGROS
+═══════════════════════════════════════════════ */
+const BADGES_DEF = [
+  { id: 'despegue',       emoji: '🚀', nombre: 'Despegue',            desc: 'Ha enviado su primera postulación',           bg: '#eff6ff', border: '#93c5fd', color: '#1d4ed8' },
+  { id: 'activo',         emoji: '🔥', nombre: 'En llamas',            desc: '10 o más postulaciones enviadas',             bg: '#fff7ed', border: '#fdba74', color: '#c2410c' },
+  { id: 'incansable',     emoji: '💎', nombre: 'Incansable',           desc: '20 o más postulaciones enviadas',             bg: '#faf5ff', border: '#c084fc', color: '#7c3aed' },
+  { id: 'primera_entrev', emoji: '🎯', nombre: 'Primera entrevista',   desc: 'Ha conseguido su primera entrevista',         bg: '#fffbeb', border: '#fbbf24', color: '#b45309' },
+  { id: 'entrevistador',  emoji: '⭐', nombre: 'Entrevistador nato',   desc: '3 o más entrevistas conseguidas',             bg: '#fefce8', border: '#facc15', color: '#a16207' },
+  { id: 'positivo',       emoji: '✅', nombre: '¡Resultado positivo!', desc: 'Al menos un proceso con resultado positivo',  bg: '#f0fdf4', border: '#86efac', color: '#166534' },
+  { id: 'superstar',      emoji: '🏆', nombre: 'Superstar',            desc: '3 o más resultados positivos',                bg: '#ecfdf5', border: '#34d399', color: '#065f46' },
+  { id: 'red_amplia',     emoji: '🌐', nombre: 'Red amplia',           desc: 'Ha contactado con 5 o más empresas',          bg: '#ecfeff', border: '#67e8f9', color: '#0e7490' },
+  { id: 'top3',           emoji: '👑', nombre: 'Top del grupo',        desc: 'En el Top 3 del ranking de éxito',            bg: '#fffbeb', border: '#f59e0b', color: '#92400e' },
+];
+
+const POSITIVO_EXCLUDE_G = ['en espera','descartado','imagino que descartado','finalizada.','none',''];
+let RANK_POSITIONS = {};
+
+function computeRanks() {
+  const scored = DATA.map(p => {
+    const posts = getPostulaciones(p);
+    let entrev = 0, positivo = 0;
+    posts.forEach(pt => {
+      if (['sí','si','true','1','yes'].includes((pt.entrevista||'').toLowerCase())) entrev++;
+      if (!POSITIVO_EXCLUDE_G.includes((pt.resultado||'').toLowerCase().trim())) positivo++;
+    });
+    return { name: getFullName(p), score: positivo * 3 + entrev };
+  }).sort((a, b) => b.score - a.score);
+  RANK_POSITIONS = {};
+  scored.forEach((r, i) => { RANK_POSITIONS[r.name] = i + 1; });
+}
+
+function getAchievements(p) {
+  const posts = getPostulaciones(p);
+  let entrev = 0, positivo = 0;
+  const empresas = new Set();
+  posts.forEach(pt => {
+    if (['sí','si','true','1','yes'].includes((pt.entrevista||'').toLowerCase())) entrev++;
+    if (!POSITIVO_EXCLUDE_G.includes((pt.resultado||'').toLowerCase().trim())) positivo++;
+    if ((pt.empresa||'').trim()) empresas.add((pt.empresa||'').trim().toLowerCase());
+  });
+  const total = posts.length;
+  const rank = RANK_POSITIONS[getFullName(p)] || 999;
+  const earned = new Set();
+  if (total >= 1)      earned.add('despegue');
+  if (total >= 10)     earned.add('activo');
+  if (total >= 20)     earned.add('incansable');
+  if (entrev >= 1)     earned.add('primera_entrev');
+  if (entrev >= 3)     earned.add('entrevistador');
+  if (positivo >= 1)   earned.add('positivo');
+  if (positivo >= 3)   earned.add('superstar');
+  if (empresas.size >= 5) earned.add('red_amplia');
+  if (rank <= 3)       earned.add('top3');
+  return BADGES_DEF.filter(b => earned.has(b.id));
 }
 
 /* ESTADÍSTICAS */
@@ -1162,6 +1260,33 @@ function renderStats() {
       <div class="stat-card"><div class="stat-number">${tasaEntrevista}%</div><div class="stat-label">Tasa de entrevista</div></div>
       <div class="stat-card"><div class="stat-number">${DATA.length}</div><div class="stat-label">Participantes</div></div>
     </div>
+
+    ${(() => {
+      // Logros del grupo
+      const badgeCounts = {};
+      BADGES_DEF.forEach(b => { badgeCounts[b.id] = 0; });
+      const personaLogros = DATA.map(p => ({ name: p.nombre + ' ' + (p.apellidos||'').split(' ')[0], ach: getAchievements(p) }))
+        .sort((a, b) => b.ach.length - a.ach.length);
+      personaLogros.forEach(pl => pl.ach.forEach(b => badgeCounts[b.id]++));
+      const totalBadgesUnlocked = Object.values(badgeCounts).reduce((a, b) => a + b, 0);
+      const summaryItems = BADGES_DEF.map(b =>
+        '<div class="logro-stat"><span class="logro-stat-emoji">' + b.emoji + '</span>'
+        + '<div class="logro-stat-count">' + badgeCounts[b.id] + '</div>'
+        + '<div class="logro-stat-label">' + b.nombre + '</div></div>'
+      ).join('');
+      const personaRows = personaLogros.map(pl =>
+        '<div class="logros-persona-row"><span class="logros-persona-name">' + pl.name + '</span>'
+        + '<div class="logros-persona-badges">'
+        + (pl.ach.length ? pl.ach.map(b => '<span title="' + b.nombre + '" style="font-size:1.1rem">' + b.emoji + '</span>').join('') : '<span style="font-size:0.75rem;color:var(--text-secondary)">Sin logros aún</span>')
+        + '</div></div>'
+      ).join('');
+      return '<div class="chart-section">'
+        + '<div class="chart-title">🏅 Logros del grupo</div>'
+        + '<p style="font-size:0.78rem;color:var(--text-secondary);margin-bottom:14px;">' + totalBadgesUnlocked + ' logros desbloqueados en total · pasa el ratón sobre los emojis en las tarjetas para ver el nombre</p>'
+        + '<div class="logros-summary">' + summaryItems + '</div>'
+        + '<div style="margin-top:10px">' + personaRows + '</div>'
+        + '</div>';
+    })()}
 
     <div class="chart-section">
       <div class="chart-title">🏆 Ranking de éxito — mejor a peor</div>
