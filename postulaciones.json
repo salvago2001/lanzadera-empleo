@@ -1723,6 +1723,17 @@
       "entrevista": "No",
       "resultado": "Descartada",
       "observaciones": ""
+    },
+    {
+      "id": "1775558488060",
+      "fecha": "04/03/2026",
+      "empresa": "Óptica 2000",
+      "vacante": "Dependiente de óptica",
+      "lugar": "Cádiz",
+      "web": "Infojobs",
+      "entrevista": "No",
+      "resultado": "Descartado",
+      "observaciones": ""
     }
   ]
 }
