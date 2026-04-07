@@ -1700,5 +1700,18 @@
       "resultado": "en proceso",
       "observaciones": "Se pone en contacto conmigo directamente. Por Linkedin, le mando el CV"
     }
+  ],
+  "Sara Alfaro de la Luz": [
+    {
+      "id": "1775558267994",
+      "fecha": "24/02/2026",
+      "empresa": "Baluarte Asesores",
+      "vacante": "Auxiliar administrativo contable",
+      "lugar": "Cádiz",
+      "web": "SAE",
+      "entrevista": "Sí",
+      "resultado": "Descartada",
+      "observaciones": ""
+    }
   ]
 }
