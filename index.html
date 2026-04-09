@@ -338,11 +338,19 @@
   .pres-header { display:flex; align-items:flex-start; justify-content:space-between; gap:16px; margin-bottom:20px; flex-wrap:wrap; }
   .pres-title { font-size:1.3rem; font-weight:800; color:var(--text); margin-bottom:4px; }
   .pres-subtitle { font-size:0.85rem; color:var(--text-secondary); }
-  .pres-download-btn { display:inline-flex; align-items:center; gap:8px; padding:12px 24px; background:linear-gradient(135deg,var(--accent),#1d4ed8); color:white; border-radius:10px; font-weight:700; font-size:0.9rem; text-decoration:none; white-space:nowrap; box-shadow:0 2px 8px rgba(37,99,235,0.35); transition:transform 0.15s,box-shadow 0.15s; flex-shrink:0; }
-  .pres-download-btn:hover { transform:translateY(-2px); }
-  .pres-iframe-wrap { background:var(--card); border:1px solid var(--border); border-radius:14px; overflow:hidden; box-shadow:var(--shadow-lg); }
-  .pres-iframe { width:100%; height:620px; border:none; display:block; }
-  @media (max-width:640px) { .pres-iframe { height:400px; } }
+  .pres-dl-btn { display:inline-flex; align-items:center; gap:8px; padding:10px 22px; background:linear-gradient(135deg,var(--accent),#1d4ed8); color:white; border-radius:10px; font-weight:700; font-size:0.9rem; text-decoration:none; white-space:nowrap; box-shadow:0 2px 8px rgba(37,99,235,0.35); transition:transform 0.15s; flex-shrink:0; }
+  .pres-dl-btn:hover { transform:translateY(-2px); }
+  .pres-box { background:var(--card); border:1px solid var(--border); border-radius:14px; padding:20px; box-shadow:var(--shadow-lg); }
+  .pres-main-wrap { display:flex; align-items:center; gap:10px; }
+  .pres-img { max-width:100%; width:100%; max-height:560px; object-fit:contain; border-radius:8px; cursor:pointer; background:#1a1a2e; }
+  .pres-btn { background:rgba(255,255,255,0.95); border:1.5px solid var(--border); border-radius:50%; width:44px; height:44px; font-size:1.8rem; cursor:pointer; display:flex; align-items:center; justify-content:center; flex-shrink:0; box-shadow:var(--shadow); transition:all 0.15s; color:var(--text); }
+  .pres-btn:hover:not(:disabled) { background:var(--accent); color:white; border-color:var(--accent); }
+  .pres-btn:disabled { opacity:0.25; cursor:default; }
+  .pres-footer { display:flex; align-items:center; justify-content:center; gap:12px; margin-top:12px; font-size:0.85rem; font-weight:700; color:var(--text-secondary); }
+  .pres-thumbs { display:flex; gap:7px; flex-wrap:wrap; margin-top:16px; padding-top:14px; border-top:1px solid var(--border); justify-content:center; }
+  .pres-thumb { width:90px; border-radius:6px; cursor:pointer; border:2px solid transparent; opacity:0.6; transition:all 0.15s; }
+  .pres-thumb:hover { opacity:1; }
+  .pres-thumb.on { border-color:var(--accent); opacity:1; }
 </style>
 </head>
 <body>
@@ -457,12 +465,17 @@
         <h2 class="pres-title">🎤 Visita Institucional — 16 de Abril 2026</h2>
         <p class="pres-subtitle">Hubs de Activación de la Empleabilidad · Edificio IFEF, Cuesta de las Calesas 39, Cádiz</p>
       </div>
-      <a class="pres-download-btn" href="https://raw.githubusercontent.com/salvago2001/lanzadera-empleo/main/visita-institucional-2026.pptx" download="Visita-Institucional-Hubs-Cadiz-2026.pptx">⬇️ Descargar PPT</a>
+      <a class="pres-dl-btn" href="https://raw.githubusercontent.com/salvago2001/lanzadera-empleo/main/visita-institucional-2026.pptx" download="Visita-Institucional-Hubs-Cadiz-2026.pptx">⬇️ Descargar PPT</a>
     </div>
-    <div class="pres-iframe-wrap">
-      <iframe id="presIframe" class="pres-iframe" src="" allow="fullscreen" title="Presentacion"></iframe>
+    <div class="pres-box">
+      <div class="pres-main-wrap">
+        <button class="pres-btn" id="pBtn0" onclick="pGo(pIdx-1)" disabled>&#8249;</button>
+        <img class="pres-img" id="pSlide" src="" alt="Diapositiva" onclick="pFullscreen()" title="Clic = pantalla completa" />
+        <button class="pres-btn" id="pBtn1" onclick="pGo(pIdx+1)">&#8250;</button>
+      </div>
+      <div class="pres-footer"><span id="pCtr">1 / 18</span></div>
+      <div class="pres-thumbs" id="pThumbs"></div>
     </div>
-    <p style="margin-top:12px;font-size:0.8rem;color:var(--text-secondary);text-align:center;">Si el visor no carga, usa el botón Descargar PPT para ver la presentación.</p>
   </div>
 </div>
 
@@ -1537,13 +1550,53 @@ function switchTab(tab) {
     if (b.getAttribute('onclick')?.includes("'" + tab + "'")) b.classList.add('active');
   });
   if (tab === 'reuniones') renderReuniones();
-  if (tab === 'presentacion') initPres();
+  if (tab === 'presentacion') pInit();
 }
 
-function initPres() {
-  var iframe = document.getElementById('presIframe');
-  if (!iframe || iframe.src) return;
-  iframe.src = 'https://docs.google.com/viewer?url=https%3A%2F%2Fraw.githubusercontent.com%2Fsalvago2001%2Flanzadera-empleo%2Fmain%2Fvisita-institucional-2026.pptx&embedded=true';
+/* ── SLIDE VIEWER ── */
+var PSLIDES = 18;
+var PBASE   = 'https://salvago2001.github.io/lanzadera-empleo/slides/';
+var pIdx    = 0;
+var pReady  = false;
+
+function pInit() {
+  if (pReady) return;
+  pReady = true;
+  var tb = document.getElementById('pThumbs');
+  for (var i = 0; i < PSLIDES; i++) {
+    (function(n) {
+      var t = document.createElement('img');
+      t.src = PBASE + 'slide-' + String(n+1).padStart(2,'0') + '.jpg';
+      t.className = 'pres-thumb' + (n === 0 ? ' on' : '');
+      t.alt = 'Slide ' + (n+1);
+      t.onclick = function() { pGo(n); };
+      tb.appendChild(t);
+    })(i);
+  }
+  pGo(0);
+}
+
+function pGo(i) {
+  pIdx = Math.max(0, Math.min(PSLIDES - 1, i));
+  var num = String(pIdx + 1).padStart(2, '0');
+  document.getElementById('pSlide').src = PBASE + 'slide-' + num + '.jpg';
+  document.getElementById('pCtr').textContent = (pIdx + 1) + ' / ' + PSLIDES;
+  document.getElementById('pBtn0').disabled = pIdx === 0;
+  document.getElementById('pBtn1').disabled = pIdx === PSLIDES - 1;
+  var thumbs = document.querySelectorAll('.pres-thumb');
+  thumbs.forEach(function(t,j) { t.classList.toggle('on', j === pIdx); });
+  if (thumbs[pIdx]) thumbs[pIdx].scrollIntoView({block:'nearest',inline:'center',behavior:'smooth'});
+}
+
+function pFullscreen() {
+  var ov = document.createElement('div');
+  ov.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.93);z-index:9999;display:flex;align-items:center;justify-content:center;cursor:zoom-out;';
+  var img = document.createElement('img');
+  img.src = document.getElementById('pSlide').src;
+  img.style.cssText = 'max-width:95vw;max-height:95vh;object-fit:contain;border-radius:8px;';
+  ov.appendChild(img);
+  ov.onclick = function() { ov.remove(); };
+  document.body.appendChild(ov);
 }
 
 /* KEYBOARD */
