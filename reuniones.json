@@ -438,5 +438,16 @@
     "fechaFin": "08/04/2026",
     "horaFin": "13:30:00",
     "localidad": ""
+  },
+  {
+    "nombre": "Visita Institucional — Hubs de Activación de la Empleabilidad",
+    "urlReunion": "",
+    "actividad": "Visita Institucional",
+    "modalidad": "Presencial",
+    "fechaInicio": "16/04/2026",
+    "horaInicio": "09:00:00",
+    "fechaFin": "16/04/2026",
+    "horaFin": "14:00:00",
+    "localidad": "Edificio IFEF · Cuesta de las Calesas, 39 · 11006 Cádiz"
   }
 ]
